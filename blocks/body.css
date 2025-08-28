@@ -8,8 +8,8 @@
 .body {
   scroll-behavior: smooth;
 
-  background-color: hsl(216, 6%, 17%);
-  color: hsl(0, 0%, 99%);
+  background-color: hsla(0, 0%, 0%, 1);
+  color: hsla(0, 0%, 100%, 1);
 
   font-family: var(--font-family-inter);
   font-size: 16px;
@@ -21,4 +21,10 @@
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
+}
+
+.body__page {
+  min-height: 100vh;
+  max-width: 880px;
+  margin: 0 auto;
 }
