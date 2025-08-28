@@ -1,0 +1,28 @@
+.header {
+  padding-top: 45px;
+}
+
+.header__container {
+  padding-bottom: 40px;
+  border-bottom: 1px solid hsla(0, 0%, 33%, 1);
+}
+
+.header__logo {
+  width: 176px;
+}
+
+@media screen and (max-width: 900px) {
+    .header {
+        padding-top: 28px;
+    }
+
+    .header__container {
+        padding: 0 28px 32px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+  .header__logo {
+    width: 126px;
+  }
+}
