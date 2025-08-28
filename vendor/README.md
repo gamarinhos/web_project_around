@@ -1,4 +1,4 @@
-# Tripleten web_project_around
+# De Pátria para Pátria
 
 <img src="./images/screencapture.png" alt="Captura de tela da página para desktop">
 Link: <a href="https://gamarinhos.github.io/<repo>">Project Name</a>

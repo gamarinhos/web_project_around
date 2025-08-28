@@ -1,0 +1,34 @@
+/* ------------ Variable Fonts ------------ */
+@font-face {
+  font-family: "Inter Variable";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('./fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+
+/* ------------ Static Fonts ------------ */
+/* ---- Regular ---- */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/Inter-Regular.woff2') format('woff2'),
+  url('./fonts/Inter-Regular.ttf') format('truetype');
+}
+
+/* ---- Black ---- */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('./fonts/Inter-Black.woff2') format('woff2'),
+  url('./fonts/Inter-Black.ttf') format('truetype');
+}
+
+/* ------------ Fallback ------------ */
+:root {
+  --font-family-inter: "Inter Variable", "Inter", sans-serif;
+}

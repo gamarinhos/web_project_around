@@ -1,0 +1,8 @@
+/* ---------------- vendor ---------------- */
+@import url('../vendor/normalize.css');
+@import url('../vendor/fonts.css');
+
+/* ---------------- blocks ---------------- */
+@import url('../blocks/body.css');
+@import url('../blocks/content.css');
+@import url('../blocks/footer.css');
