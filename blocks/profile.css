@@ -1,24 +1,30 @@
 .profile {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-);
 }
 
 .profile__container {
   display: flex;
   align-items: center;
   gap: 30px;
+  padding-right: 20px;
 }
 
-.profile__image {
+.profile__avatar {
   width: 120px;
   height: 120px;
   border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .profile__info {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  max-width: 500px;
 }
 
 .profile__name-container {
@@ -31,22 +37,41 @@
   font-size: 42px;
   font-weight: 500;
   line-height: 1.14;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .profile__edit-button {
   width: 24px;
+  min-width: 24px;
   height: 24px;
-  background-image: url('../images/edit-button.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
-  border: none;
+  border: 1px solid #fff;
   background-color: transparent;
   cursor: pointer;
+  overflow: hidden;
+  transition: 0.2s ease;
+  position: relative;
+  bottom: 8px;
+}
+
+.profile__edit-button:hover {
+  opacity: 0.6;
+  transition: 0.2s ease;
+}
+
+.profile__edit-button-icon {
+  width: 10px;
+  height: 10px;
+  align-self: center;
 }
 
 .profile__about {
   font-size: 18px;
-  line-height: 1.22;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .profile__add-button {
@@ -56,6 +81,12 @@
   border-radius: 2px;
   background-color: transparent;
   cursor: pointer;
-  font-size: 22px;
   color: #fff;
+  padding: 10px;
+  transition: 0.2s ease;
+}
+
+.profile__add-button:hover {
+  opacity: 0.6;
+  transition: 0.2s ease;
 }
