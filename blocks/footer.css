@@ -2,13 +2,20 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
 
   padding-bottom: 32px;
   font-family: var(--font-family-inter);
   font-size: 16px;
   font-weight: 400;
   line-height: 1.2;
+  color: #545454;
+}
+
+.footer__author {
+  color: #545454;
+  text-decoration: none;
+}
+
+.footer__author:hover {
+  text-decoration: underline;
 }

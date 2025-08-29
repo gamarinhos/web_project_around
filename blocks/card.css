@@ -38,6 +38,7 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
+  overflow: visible;
 }
 
 .card__like-button:hover {
@@ -47,4 +48,10 @@
 .card__like-button-icon {
   width: 21px;
   height: 19px;
+  fill: none;
+  stroke: #000;
 } 
+
+.card__like-button-icon_active {
+  fill: #000;
+}
