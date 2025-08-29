@@ -10,6 +10,11 @@
   gap: 50px;
 }
 
+.content__section-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 17px;
+}
 
 @media screen and (max-width: 768px) {
   .content {
