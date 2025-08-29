@@ -44,3 +44,7 @@
   opacity: 0.5;
 }
 
+.card__like-button-icon {
+  width: 21px;
+  height: 19px;
+}
