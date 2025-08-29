@@ -14,11 +14,29 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px 17px;
+  margin: 0 auto;
+  width: fit-content;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 920px) {
+  .content__section-cards {
+    padding: 0 16px;
+  }
+}
+
+@media screen and (max-width: 800px) {
   .content {
     gap: 80px;
+  }
+
+  .content__section-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .content__section-cards {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 
