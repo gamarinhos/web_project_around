@@ -52,6 +52,6 @@
   stroke: #000;
 } 
 
-.card__like-button-icon_active {
+.card__like-button-icon:active {
   fill: #000;
 }
