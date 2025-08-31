@@ -19,3 +19,9 @@
 .footer__author:hover {
   text-decoration: underline;
 }
+
+@media screen and (max-width: 920px) {
+  .footer {
+    padding-left: 16px;
+  }
+}
