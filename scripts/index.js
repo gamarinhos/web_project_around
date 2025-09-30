@@ -28,3 +28,14 @@ popupProfileForm.addEventListener('submit', function(evt){
 
     popupProfile.classList.remove('popup-profile_active');
 });
+
+let cardLikeButtons = document.querySelectorAll('.card__like-button');
+
+cardLikeButtons.forEach(button => {  
+    button.addEventListener('click', function() {
+        const icon = button.querySelector('svg')
+
+        icon.classList.toggle('card__like-button_active');
+    });
+});
+
