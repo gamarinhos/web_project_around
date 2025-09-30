@@ -59,7 +59,7 @@
                 <p class="profile__job">Web Developer | Musician | Designer</p>
               </div>
             </div>
-            <button id="add-card" class="profile__add-button">
+            <button class="profile__add-button">
               <svg
                 width="22"
                 height="22"
@@ -73,127 +73,7 @@
           </div>
         </section>
 
-        <section class="content__section-cards">
-          <div class="card">
-            <img
-              src="./images/3dbe7008cf5622c19034ae50ddc30348e49c2ac6.webp"
-              alt="barcos atracados em um lago com montanhas ao fundo"
-              class="card__image"
-            />
-            <div class="card__info">
-              <h2 class="card__title">Lago di Braies</h2>
-              <button class="card__like-button">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="card__like-button-icon"
-                  viewBox="0 0 22 20"
-                >
-                  <use href="./images/icons.svg#icon-heart"></use>
-                  <!-- Durante o projeto aprendi que é possível usar esse metodo para inserir o svg como um componente otimizando o processamento da imagem, além de tornar o código mais limpo e organizado -->
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div class="card">
-            <img
-              src="./images/221cfcb6f665950ee520ab6c9cc460dd246710c4.webp"
-              alt="montanhas com lago cristalino ciano refletindo as montanhas e o céu claro"
-              class="card__image"
-            />
-            <div class="card__info">
-              <h2 class="card__title">Lago Louise</h2>
-              <button class="card__like-button">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="card__like-button-icon"
-                  viewBox="0 0 22 20"
-                >
-                  <use href="./images/icons.svg#icon-heart"></use>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div class="card">
-            <img
-              src="./images/906f6bf6cf25eb556dd75f223d72ade0d4bccb93.webp"
-              alt="paisagem montanhosa com lago refletindo as montanhas e o céu"
-              class="card__image"
-            />
-            <div class="card__info">
-              <h2 class="card__title">Parque Nacional de Banff</h2>
-              <button class="card__like-button">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="card__like-button-icon"
-                >
-                  <use href="./images/icons.svg#icon-heart"></use>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div class="card">
-            <img
-              src="./images/4678c5ba8916c0b28b3e15fdbea3fa7a96fe0cd5.webp"
-              alt="rio cercado por árvores com montanhas ao fundo"
-              class="card__image"
-            />
-            <div class="card__info">
-              <h2 class="card__title">Vale de Yosemite</h2>
-              <button class="card__like-button">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="card__like-button-icon"
-                  viewBox="0 0 22 20"
-                >
-                  <use href="./images/icons.svg#icon-heart"></use>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div class="card">
-            <img
-              src="./images/5777c3a01f7043c8a872fcb759976babd53a3d4e.webp"
-              alt="por do sol sobre montanhas"
-              class="card__image"
-            />
-            <div class="card__info">
-              <h2 class="card__title">Montanhas Caretas</h2>
-              <button class="card__like-button">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="card__like-button-icon"
-                  viewBox="0 0 22 20"
-                >
-                  <use href="./images/icons.svg#icon-heart"></use>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div class="card">
-            <img
-              src="./images/de4f23b1370b713bab6281cf68c1f6d4782362bd.webp"
-              alt="montanhas sob um céu noturno estrelado"
-              class="card__image"
-            />
-            <div class="card__info">
-              <h2 class="card__title">Latemar</h2>
-              <button class="card__like-button">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="card__like-button-icon"
-                  viewBox="0 0 22 20"
-                >
-                  <use href="./images/icons.svg#icon-heart"></use>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </section>
+        <section class="content__section-cards"></section>
       </main>
 
       <footer class="footer">
@@ -210,37 +90,96 @@
       </footer>
     </div>
 
-    <div class="popup-profile">
-      <button class="popup-profile__close-button">
+    <template id="card-template">
+      <div class="card">
+        <img src="" alt="" class="card__image" />
+        <div class="card__info">
+          <h2 class="card__title"></h2>
+          <button class="card__like-button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="card__like-button-icon"
+              viewBox="0 0 22 20"
+            >
+              <use href="./images/icons.svg#icon-heart"></use>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </template>
+
+    <!-- Profile Popup -->
+    <div class="popup" id="profile-popup">
+      <button class="popup__close-button" id="profile-close-button">
         <svg
           width="22"
           height="22"
           xmlns="http://www.w3.org/2000/svg"
-          class="popup-profile__close-button-icon"
+          class="popup__close-button-icon"
         >
           <use href="./images/icons.svg#icon-plus" fill="#fff" />
         </svg>
       </button>
-      <div class="popup-profile__container">
-        <h2 class="popup-profile__title">Editar perfil</h2>
-        <form class="popup-profile__form">
-          <fieldset class="popup-profile__fieldset">
+      <div class="popup__container">
+        <h2 class="popup__title">Editar perfil</h2>
+        <form class="popup__form" id="profile-form">
+          <fieldset class="popup__fieldset">
             <input
               type="text"
               id="profile-name"
-              class="popup-profile__input"
+              class="popup__input"
               placeholder="Nome"
               required
             />
             <input
               type="text"
               id="profile-job"
-              class="popup-profile__input"
+              class="popup__input"
               placeholder="Sobre"
               required
             />
           </fieldset>
-          <button type="submit" class="popup-profile__submit">Salvar</button>
+          <button type="submit" class="popup__submit" id="profile-submit">
+            Salvar
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Card Popup -->
+    <div class="popup" id="add-card-popup">
+      <button class="popup__close-button" id="add-card-close-button">
+        <svg
+          width="22"
+          height="22"
+          xmlns="http://www.w3.org/2000/svg"
+          class="popup__close-button-icon"
+        >
+          <use href="./images/icons.svg#icon-plus" fill="#fff" />
+        </svg>
+      </button>
+      <div class="popup__container">
+        <h2 class="popup__title">Novo local</h2>
+        <form class="popup__form" id="add-card-form">
+          <fieldset class="popup__fieldset">
+            <input
+              type="text"
+              id="add-card-title"
+              class="popup__input"
+              placeholder="Título"
+              required
+            />
+            <input
+              type="text"
+              id="add-card-link"
+              class="popup__input"
+              placeholder="Link da imagem"
+              required
+            />
+          </fieldset>
+          <button type="submit" class="popup__submit" id="add-card-submit">
+            Criar
+          </button>
         </form>
       </div>
     </div>

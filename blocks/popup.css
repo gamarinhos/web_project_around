@@ -1,4 +1,4 @@
-.popup-profile {
+.popup {
   position: fixed;
   top: 0;
   left: 0;
@@ -14,33 +14,33 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-.popup-profile_active {
+.popup_active {
   visibility: visible;
   opacity: 1;
 }
 
-.popup-profile__close-button {
+.popup__close-button {
   position: absolute;
   background-color: transparent;
   border: none;
   cursor: pointer;
-  position-anchor: --popup-profile;
+  position-anchor: --popup;
   position-area: top right;
   transition: 0.3s ease-in-out;
 }
 
-.popup-profile__close-button-icon {
+.popup__close-button-icon {
     rotate: 45deg;
     transition: 0.3s ease-in-out;
 }
 
-.popup-profile__close-button:hover .popup-profile__close-button-icon {
+.popup__close-button:hover .popup__close-button-icon {
     rotate: 225deg;
     opacity: 0.6;
     transition: 0.3s ease-in-out;
 }
 
-.popup-profile__container {
+.popup__container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,10 +51,10 @@
   padding: 34px 36px 37px;
   gap: 54px;
   position: relative;
-  anchor-name: --popup-profile;
+  anchor-name: --popup;
 }
 
-.popup-profile__title {
+.popup__title {
   font-size: 24px;
   font-weight: 900;
   line-height: 29px;
@@ -62,7 +62,7 @@
   margin: 0;
 }
 
-.popup-profile__form {
+.popup__form {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -70,7 +70,7 @@
   overflow: hidden;
 }
 
-.popup-profile__fieldset {
+.popup__fieldset {
   display: flex;
   flex-direction: column;
   row-gap: 30px;
@@ -82,7 +82,7 @@
   color: #000;
 }
 
-.popup-profile__input {
+.popup__input {
   border: none;
   background-color: transparent;
   border-bottom: 1px solid hsl(0, 0%, 0%, 0.2);
@@ -90,15 +90,15 @@
   outline: none;
 }
 
-.popup-profile__input::placeholder {
+.popup__input::placeholder {
   color: hsl(0, 0%, 0%, 0.6);
 }
 
-.popup-profile__input:focus {
+.popup__input:focus {
   border-bottom: 1px solid hsl(0, 0%, 0%, 0.6);
 }
 
-.popup-profile__submit {
+.popup__submit {
   width: 100%;
   height: 50px;
   background-color: #000;
@@ -109,17 +109,17 @@
   cursor: pointer;
 }
 
-.popup-profile__submit:hover {
+.popup__submit:hover {
   opacity: 0.8;
 }
 
-.popup-profile__submit:focus-visible {
+.popup__submit:focus-visible {
     outline: 1px solid #000;
     outline-offset: 2px;
 }
 
 @media (max-width: 500px) {
-    .popup-profile__close-button {
+    .popup__close-button {
         transform: translate(-22px, -12px);
     }
 }
