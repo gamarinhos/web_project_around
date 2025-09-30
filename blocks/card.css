@@ -55,3 +55,7 @@
 .card__like-button-icon:active {
   fill: #000;
 }
+
+.card__like-button_active {
+  fill: #000;
+}
