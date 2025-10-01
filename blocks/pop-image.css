@@ -14,7 +14,7 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-.pop-image_active {
+.active {
   visibility: visible;
   opacity: 1;
 }

@@ -1,11 +1,11 @@
 // Open popup function //
 function openPopup(popup) {
-    popup.classList.add('popup_active');
+    popup.classList.add('active');
 }
 
 // close popup function //
 function closePopup(popup) {
-    popup.classList.remove('popup_active');
+    popup.classList.remove('active');
 }
 
 //////// Profile Popup ////////
