@@ -64,6 +64,7 @@
   object-fit: contain;
   object-position: center;
   overflow: visible;
+  cursor: pointer;
 }
 
 .pop-image__title {

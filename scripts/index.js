@@ -1,9 +1,7 @@
-// Open popup function //
 function openPopup(popup) {
     popup.classList.add('active');
 }
 
-// close popup function //
 function closePopup(popup) {
     popup.classList.remove('active');
 }
@@ -16,7 +14,7 @@ const profilePopupJob = profilePopupForm.querySelector('#profile-job');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 
-//// Click buttons ////
+// triggers //
 const profilePopupOpenButton = document.querySelector('.profile__edit-button');
 const profilePopupCloseButton = profilePopup.querySelector ('#profile-close-button');
   
@@ -41,6 +39,25 @@ profilePopupForm.addEventListener('submit', function(evt){
     profilePopup.classList.remove('popup_active');
 });
 
+//////// Pop-image Popup////////
+const imagePopup = document.querySelector('#image-popup');
+const imagePopupImage = imagePopup.querySelector('.pop-image__image');
+const imagePopupTitle = imagePopup.querySelector('.pop-image__title');
+
+// triggers //
+const imagePopupCloseButton = imagePopup.querySelector('#image-close-button');
+
+imagePopupCloseButton.addEventListener('click', () => {
+  closePopup(imagePopup);
+});
+
+function openImagePopup(image, title) {
+  openPopup(imagePopup);
+  imagePopupImage.src = image.src;
+  imagePopupImage.alt = image.alt;
+  imagePopupTitle.textContent = title;
+}
+
 //////// Card creation function ////////
 const cardsSection = document.querySelector('.content__section-cards');
 const cardTemplate = document.querySelector('#card-template').content;
@@ -58,7 +75,7 @@ function addCard(title, image, alt = title) {
   cardImage.alt = alt;
 
   cardImage.addEventListener('click', () => {
-    openImagePopup(cardImage.src);
+    openImagePopup(cardImage, title);
   });
 
   cardLikeButton.addEventListener('click', () => {
@@ -118,7 +135,7 @@ const addCardPopupForm = addCardPopup.querySelector('#add-card-form');
 const addCardPopupTitle = addCardPopupForm.querySelector('#add-card-title');
 const addCardPopupLink = addCardPopupForm.querySelector('#add-card-link');
 
-//// Click buttons ////
+// triggers //
 const addCardPopupOpenButton = document.querySelector('.profile__add-button');
 const addCardPopupCloseButton = addCardPopup.querySelector('#add-card-close-button');
 
@@ -135,6 +152,5 @@ addCardPopupForm.addEventListener('submit', (evt) =>{
   evt.preventDefault();
 
   addCard(addCardPopupTitle.value, addCardPopupLink.value);
-
   closePopup(addCardPopup);
 });
