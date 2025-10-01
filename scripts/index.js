@@ -1,11 +1,3 @@
-function openPopup(popup) {
-    popup.classList.add('active');
-}
-
-function closePopup(popup) {
-    popup.classList.remove('active');
-}
-
 //////// Profile Popup ////////
 const profilePopup = document.querySelector('#profile-popup');
 const profilePopupForm = profilePopup.querySelector('#profile-form');
@@ -17,7 +9,7 @@ const profileJob = document.querySelector('.profile__job');
 // triggers //
 const profilePopupOpenButton = document.querySelector('.profile__edit-button');
 const profilePopupCloseButton = profilePopup.querySelector ('#profile-close-button');
-  
+
 profilePopupOpenButton.addEventListener('click', function() {
   openPopup(profilePopup);
 
@@ -28,6 +20,15 @@ profilePopupOpenButton.addEventListener('click', function() {
 profilePopupCloseButton.addEventListener('click', function() {
     closePopup(profilePopup);
 });
+
+// toggle functions //
+function openPopup(popup) {
+    popup.classList.add('active');
+}
+
+function closePopup(popup) {
+    popup.classList.remove('active');
+}
 
 // Save new data //
 profilePopupForm.addEventListener('submit', function(evt){
