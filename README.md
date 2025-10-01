@@ -20,8 +20,6 @@ Uma galeria de fotos interativa que exibe os locais visitados adicionados pelo u
 
 1. **Editar avatar**: Permitir a personalização da foto de perfil.
 
-2. **Adicionar e remover imagens**: Implementar a funcionalidade de adicionar e remover cards.
+2. **Descrição da imagem**: Dar ao usuário a opção de adicionar mais textos como uma descrição às imagens.
 
-3. **Descrição da imagem**: Dar ao usuário a opção de adicionar mais textos como uma descrição às imagens.
-
-4. **Sticky header**: Manter a seção do perfil fixada no topo da tela enquanto o usuário rola pelos cards.
+3. **Sticky header**: Manter a seção do perfil fixada no topo da tela enquanto o usuário rola pelos cards.
