@@ -46,25 +46,32 @@ const cardsSection = document.querySelector('.content__section-cards');
 const cardTemplate = document.querySelector('#card-template').content;
 
 function addCard(title, image, alt = title) {
-    const card = cardTemplate.cloneNode(true);
-    const cardImage = card.querySelector('.card__image');
-    const cardTitle = card.querySelector('.card__title');
-    const cardLikeButton = card.querySelector('.card__like-button');
-    
-    cardTitle.textContent = title;
-    cardImage.src = image;
-    cardImage.alt = alt;
+  const card = cardTemplate.cloneNode(true);
+  const cardImage = card.querySelector('.card__image');
+  const cardTitle = card.querySelector('.card__title');
+  const cardLikeButton = card.querySelector('.card__like-button');
+  const cardTrashButton = card.querySelector('.card__trash-button');
 
-    cardImage.addEventListener('click', () => {
-        toggleCardImagePopup(cardImage.src);
-    });
+  cardTitle.textContent = title;
+  cardTitle.title = title;
+  cardImage.src = image;
+  cardImage.alt = alt;
 
-    cardLikeButton.addEventListener('click', () => {
-        const likeIcon = cardLikeButton.querySelector('svg');
-        likeIcon.classList.toggle('card__like-button_active');
-    });
+  cardImage.addEventListener('click', () => {
+    openImagePopup(cardImage.src);
+  });
 
-    cardsSection.prepend(card);
+  cardLikeButton.addEventListener('click', () => {
+    const likeIcon = cardLikeButton.querySelector('svg');
+    likeIcon.classList.toggle('card__like-button_active');
+  });
+
+  cardTrashButton.addEventListener('click', (e) => {
+    const button = e.target;
+    button.closest('.card').remove();
+  });
+
+  cardsSection.prepend(card);
 }
 
 //////// Initial Cards ////////
@@ -131,4 +138,3 @@ addCardPopupForm.addEventListener('submit', (evt) =>{
 
   closePopup(addCardPopup);
 });
-

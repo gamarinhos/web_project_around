@@ -51,6 +51,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  cursor: default;
 }
 
 .card__like-button {
