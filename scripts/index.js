@@ -78,6 +78,10 @@ function addCard(title, image, alt = title) {
     openImagePopup(cardImage, title);
   });
 
+  cardImage.addEventListener('error', () => {
+    cardImage.src = './images/image-error.png';
+  });
+
   cardLikeButton.addEventListener('click', () => {
     const likeIcon = cardLikeButton.querySelector('svg');
     likeIcon.classList.toggle('card__like-button_active');
