@@ -64,7 +64,30 @@ function openImagePopup(image, title) {
 //////// Card section manipulation ////////
 const cardsSection = document.querySelector('.content__section-cards');
 
+function setCardEvents(section) {
 
+  section.addEventListener('click', (e) => {
+  const element = e.target;
+  const elementClass = element.classList.value;
+  const card = element.closest('.card');
+
+  if (elementClass.includes('card__trash-button')) {
+    card.remove();
+  }
+
+  if (elementClass.includes('card__like-button')) {
+    const likeIcon = element.querySelector('svg');
+    likeIcon.classList.toggle('card__like-button_active');
+  }
+
+  if (elementClass.includes('card__image')) {
+    openImagePopup(element, element.alt);
+  }
+});
+
+}
+
+setCardEvents(cardsSection);
 
 //////// Card creation function ////////
 const cardTemplate = document.querySelector('#card-template').content;
@@ -81,22 +104,8 @@ function addCard(title, image, alt = title) {
   cardImage.src = image;
   cardImage.alt = alt;
 
-  cardImage.addEventListener('click', () => {
-    openImagePopup(cardImage, title);
-  });
-
   cardImage.addEventListener('error', () => {
     cardImage.src = './images/image-error.png';
-  });
-
-  cardLikeButton.addEventListener('click', () => {
-    const likeIcon = cardLikeButton.querySelector('svg');
-    likeIcon.classList.toggle('card__like-button_active');
-  });
-
-  cardTrashButton.addEventListener('click', (e) => {
-    const button = e.target;
-    button.closest('.card').remove();
   });
 
   cardsSection.prepend(card);
