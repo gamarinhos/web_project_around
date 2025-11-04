@@ -23,11 +23,13 @@ profilePopupCloseButton.addEventListener('click', function() {
 
 // toggle functions //
 function openPopup(popup) {
-    popup.classList.add('active');
+  const popupClass = popup.classList.value.split(' ')[0];
+    popup.classList.add(`${popupClass}_active`);
 }
 
 function closePopup(popup) {
-    popup.classList.remove('active');
+  const popupClass = popup.classList.value.split(' ')[0];
+    popup.classList.remove(`${popupClass}_active`);
 }
 
 // Save new data //
@@ -59,8 +61,12 @@ function openImagePopup(image, title) {
   imagePopupTitle.textContent = title;
 }
 
-//////// Card creation function ////////
+//////// Card section manipulation ////////
 const cardsSection = document.querySelector('.content__section-cards');
+
+
+
+//////// Card creation function ////////
 const cardTemplate = document.querySelector('#card-template').content;
 
 function addCard(title, image, alt = title) {
@@ -131,7 +137,7 @@ const initialCards = [
 ];
 
 initialCards.forEach(card => {
-    addCard(card.title, card.link, card.alt);
+    addCard(card.title, card.link);
 });
 
 //////// Add Card Popup ////////
