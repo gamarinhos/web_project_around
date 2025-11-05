@@ -104,6 +104,8 @@ function addCard(title, image, alt = title) {
   cardImage.src = image;
   cardImage.alt = alt;
 
+  
+
   cardImage.addEventListener('error', () => {
     cardImage.src = './images/image-error.png';
   });

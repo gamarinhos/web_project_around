@@ -30,6 +30,7 @@
   width: 19px;
   height: 20px;
   fill: red;
+  pointer-events: none;
 }
 
 .card__trash-button:hover {
@@ -73,6 +74,7 @@
   height: 19px;
   fill: none;
   stroke: #000;
+  pointer-events: none;
 } 
 
 .card__like-button-icon:active {
