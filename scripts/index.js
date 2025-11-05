@@ -84,7 +84,6 @@ function setCardEvents(section) {
     openImagePopup(element, element.alt);
   }
 });
-
 }
 
 setCardEvents(cardsSection);
@@ -104,11 +103,11 @@ function addCard(title, image, alt = title) {
   cardImage.src = image;
   cardImage.alt = alt;
 
-  
-
+  // Image error handling //
   cardImage.addEventListener('error', () => {
     cardImage.src = './images/image-error.png';
   });
+  /* The 'error' event do not bubble up to the section */
 
   cardsSection.prepend(card);
 }
