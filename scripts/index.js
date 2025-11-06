@@ -61,53 +61,41 @@ function openImagePopup(image, title) {
   imagePopupTitle.textContent = title;
 }
 
-//////// Card section manipulation ////////
-const cardsSection = document.querySelector('.content__section-cards');
-
-function setCardEvents(section) {
-
-  section.addEventListener('click', (e) => {
-  const element = e.target;
-  const elementClass = element.classList.value;
-  const card = element.closest('.card');
-
-  if (elementClass.includes('card__trash-button')) {
-    card.remove();
-  }
-
-  if (elementClass.includes('card__like-button')) {
-    const likeIcon = element.querySelector('svg');
-    likeIcon.classList.toggle('card__like-button_active');
-  }
-
-  if (elementClass.includes('card__image')) {
-    openImagePopup(element, element.alt);
-  }
-});
-}
-
-setCardEvents(cardsSection);
-
 //////// Card creation function ////////
 const cardTemplate = document.querySelector('#card-template').content;
+const cardsSection = document.querySelector('.content__section-cards');
 
 function addCard(title, image, alt = title) {
-  const card = cardTemplate.cloneNode(true);
-  const cardImage = card.querySelector('.card__image');
+  const card = cardTemplate.cloneNode(true).querySelector('.card');
   const cardTitle = card.querySelector('.card__title');
-  const cardLikeButton = card.querySelector('.card__like-button');
-  const cardTrashButton = card.querySelector('.card__trash-button');
+  const cardImage = card.querySelector('.card__image');
 
   cardTitle.textContent = title;
   cardTitle.title = title;
   cardImage.src = image;
   cardImage.alt = alt;
 
-  // Image error handling //
-  cardImage.addEventListener('error', () => {
-    cardImage.src = './images/image-error.png';
+  card.addEventListener('click', (e) => {
+    const target = e.target;
+    const hasClass = (name) => target.classList.value.includes(name);
+
+    if (hasClass('card__image')) {
+      openImagePopup(target, target.alt);
+    }
+
+    if (hasClass('card__like-button')) {
+      target.classList.toggle('card__like-button_active');
+    }
+
+    if (hasClass('card__trash-button')) {
+      card.remove();
+    }
   });
-  /* The 'error' event do not bubble up to the section */
+
+  cardImage.addEventListener('error', (e) => {
+    e.target.src = './images/image-error.png';
+    console.log(`Image error: ${e.target}`);
+  });
 
   cardsSection.prepend(card);
 }
@@ -144,6 +132,11 @@ const initialCards = [
     link: "./images/de4f23b1370b713bab6281cf68c1f6d4782362bd.webp",
     alt: "montanhas sob um céu noturno estrelado"
   },
+  {
+    title: "Error example",
+    link: "https://broken-url.com",
+    alt: "Error example"
+  }
 ];
 
 initialCards.forEach(card => {

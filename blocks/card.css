@@ -75,12 +75,8 @@
   fill: none;
   stroke: #000;
   pointer-events: none;
-} 
-
-.card__like-button-icon:active {
-  fill: #000;
 }
 
-.card__like-button_active {
+.card__like-button_active .card__like-button-icon {
   fill: #000;
 }
