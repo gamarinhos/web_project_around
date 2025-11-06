@@ -1,6 +1,6 @@
 //////// Profile Popup ////////
-const profilePopup = document.querySelector('#profile-popup');
-const profilePopupForm = profilePopup.querySelector('#profile-form');
+const profilePopupForm = document.forms.profile;
+const profilePopup = profilePopupForm.closest('.popup');
 const profilePopupName = profilePopupForm.querySelector('#profile-name');
 const profilePopupJob = profilePopupForm.querySelector('#profile-job');
 const profileName = document.querySelector('.profile__name');
@@ -32,15 +32,19 @@ function closePopup(popup) {
     popup.classList.remove(`${popupClass}_active`);
 }
 
+function editProfile(evt) {
+  evt.preventDefault();
+  const name = evt.target.querySelector('#profile-name');
+  const job = evt.target.querySelector('#profile-job');
+
+  profileName.textContent = name.value;
+  profileJob.textContent = job.value;
+
+  profilePopup.classList.remove('popup_active');
+}
+
 // Save new data //
-profilePopupForm.addEventListener('submit', function(evt){
-    evt.preventDefault();
-
-    profileName.textContent = profilePopupName.value;
-    profileJob.textContent = profilePopupJob.value;
-
-    profilePopup.classList.remove('popup_active');
-});
+profilePopupForm.addEventListener('submit', editProfile);
 
 //////// Pop-image Popup////////
 const imagePopup = document.querySelector('#image-popup');
