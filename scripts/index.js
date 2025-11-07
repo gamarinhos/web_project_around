@@ -55,7 +55,7 @@ profile.openButton.addEventListener('click', function() {
 document.addEventListener('keydown', (evt) => {
   if (evt.key === 'Escape') {
     closePopup(document.querySelector('.popup_active'));
-    
+
   }
 });
 
@@ -73,8 +73,8 @@ profile.addEventListener('submit', editProfile);
 
 //////// Pop-image Popup////////
 const imagePopup = document.querySelector('#image-popup');
-const imagePopupImage = imagePopup.querySelector('.pop-image__image');
-const imagePopupTitle = imagePopup.querySelector('.pop-image__title');
+const imagePopupImage = imagePopup.querySelector('.popup__image');
+const imagePopupTitle = imagePopup.querySelector('.popup__title');
 
 // triggers //
 const imagePopupCloseButton = imagePopup.querySelector('#image-close-button');

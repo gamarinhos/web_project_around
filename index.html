@@ -193,20 +193,23 @@
     </div>
 
     <!-- Image Popup -->
-    <div class="pop-image" id="image-popup">
-      <button class="pop-image__close-button" id="image-close-button">
+    <div class="popup" id="image-popup">
+      <button
+        class="popup__close-button popup__close-button_type_image"
+        id="image-close-button"
+      >
         <svg
-          width="22"
-          height="22"
+          width="40"
+          height="40"
           xmlns="http://www.w3.org/2000/svg"
-          class="pop-image__close-button-icon"
+          class="popup__close-button-icon"
         >
           <use href="./images/icons.svg#icon-plus" fill="#fff" />
         </svg>
       </button>
-      <div class="pop-image__container">
-        <img src="" alt="" class="pop-image__image" />
-        <h2 class="pop-image__title"></h2>
+      <div class="popup__container popup__container_type_image">
+        <img src="" alt="" class="popup__image" />
+        <h2 class="popup__title popup__title_type_image"></h2>
       </div>
     </div>
 
