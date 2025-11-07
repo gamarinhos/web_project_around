@@ -1,4 +1,4 @@
-const formSelector = (formName) => {
+const formSelector = (formName, additionalProperties = {}) => {
   const formElement = document.forms[formName];
   const popupElement = formElement.closest('.popup');
   const properties = {
@@ -12,41 +12,22 @@ const formSelector = (formName) => {
     closeButton: popupElement.querySelector('.popup__close-button'),
   }
 
-  return Object.assign(formElement, properties);
+  return Object.assign(formElement, properties, additionalProperties);
 }
 
 function setCloseEvents(...popupElements) {
   popupElements.forEach(popupElement => {
     popupElement.addEventListener('click', (evt) => {
-      const classIs = (name) => evt.target.classList.value.split(' ')[0] === name;
+      const popupClass = popupElement.classList.value.split(' ')[0];
+      const classIs = (name) => evt.target.classList.value === name;
 
-      if (classIs('popup__close-button') || classIs('popup')) {
+      if (classIs(`${popupClass}__close-button`) || classIs(`${popupClass}`)) {
         closePopup(popupElement);
       }  
     });
   });
 }
 
-//////// Profile Popup ////////
-const profile = formSelector('profile');
-Object.assign(profile, {
-  nameText: document.querySelector('.profile__name'),
-  jobText: document.querySelector('.profile__job'),
-  openButton: document.querySelector('.profile__edit-button'),
-  closeButton: profile.popup.querySelector('#profile-close-button'),
-});
-
-
-profile.openButton.addEventListener('click', function() {
-  openPopup(profile.popup);
-
-  profile.inputs.name.value = profile.nameText.textContent;
-  profile.inputs.job.value = profile.jobText.textContent;
-});
-
-
-
-// toggle functions //
 function openPopup(popup) {
   const popupClass = popup.classList.value.split(' ')[0];
     popup.classList.add(`${popupClass}_active`);
@@ -57,9 +38,24 @@ function closePopup(popup) {
     popup.classList.remove(`${popupClass}_active`);
 }
 
+//////// Profile Popup ////////
+const profile = formSelector('profile', {
+  nameText: document.querySelector('.profile__name'),
+  jobText: document.querySelector('.profile__job'),
+  openButton: document.querySelector('.profile__edit-button')
+  });
+
+profile.openButton.addEventListener('click', function() {
+  openPopup(profile.popup);
+
+  profile.inputs.name.value = profile.nameText.textContent;
+  profile.inputs.job.value = profile.jobText.textContent;
+});
+
 document.addEventListener('keydown', (evt) => {
   if (evt.key === 'Escape') {
     closePopup(document.querySelector('.popup_active'));
+    
   }
 });
 
