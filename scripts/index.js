@@ -1,25 +1,50 @@
+const formSelector = (formName) => {
+  const formElement = document.forms[formName];
+  const popupElement = formElement.closest('.popup');
+  const properties = {
+    form: formElement,
+    popup: popupElement,
+    inputs: Array.from(formElement.querySelectorAll('input')).reduce((obj, input) => {
+      obj[input.name] = input;
+      return obj;
+    }, {}),
+    submitButton: formElement.querySelector('.popup__submit'),
+    closeButton: popupElement.querySelector('.popup__close-button'),
+  }
+
+  return Object.assign(formElement, properties);
+}
+
+function setCloseEvents(...popupElements) {
+  popupElements.forEach(popupElement => {
+    popupElement.addEventListener('click', (evt) => {
+      const classIs = (name) => evt.target.classList.value.split(' ')[0] === name;
+
+      if (classIs('popup__close-button') || classIs('popup')) {
+        closePopup(popupElement);
+      }  
+    });
+  });
+}
+
 //////// Profile Popup ////////
-const profilePopupForm = document.forms.profile;
-const profilePopup = profilePopupForm.closest('.popup');
-const profilePopupName = profilePopupForm.querySelector('#profile-name');
-const profilePopupJob = profilePopupForm.querySelector('#profile-job');
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__job');
-
-// triggers //
-const profilePopupOpenButton = document.querySelector('.profile__edit-button');
-const profilePopupCloseButton = profilePopup.querySelector ('#profile-close-button');
-
-profilePopupOpenButton.addEventListener('click', function() {
-  openPopup(profilePopup);
-
-  profilePopupName.value = profileName.textContent;
-  profilePopupJob.value = profileJob.textContent;
+const profile = formSelector('profile');
+Object.assign(profile, {
+  nameText: document.querySelector('.profile__name'),
+  jobText: document.querySelector('.profile__job'),
+  openButton: document.querySelector('.profile__edit-button'),
+  closeButton: profile.popup.querySelector('#profile-close-button'),
 });
 
-profilePopupCloseButton.addEventListener('click', function() {
-    closePopup(profilePopup);
+
+profile.openButton.addEventListener('click', function() {
+  openPopup(profile.popup);
+
+  profile.inputs.name.value = profile.nameText.textContent;
+  profile.inputs.job.value = profile.jobText.textContent;
 });
+
+
 
 // toggle functions //
 function openPopup(popup) {
@@ -32,19 +57,23 @@ function closePopup(popup) {
     popup.classList.remove(`${popupClass}_active`);
 }
 
+document.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape') {
+    closePopup(document.querySelector('.popup_active'));
+  }
+});
+
 function editProfile(evt) {
   evt.preventDefault();
-  const name = evt.target.querySelector('#profile-name');
-  const job = evt.target.querySelector('#profile-job');
 
-  profileName.textContent = name.value;
-  profileJob.textContent = job.value;
+  profile.nameText.textContent = profile.inputs.name.value;
+  profile.jobText.textContent = profile.inputs.job.value;
 
-  profilePopup.classList.remove('popup_active');
+  profile.popup.classList.remove('popup_active');
 }
 
 // Save new data //
-profilePopupForm.addEventListener('submit', editProfile);
+profile.addEventListener('submit', editProfile);
 
 //////// Pop-image Popup////////
 const imagePopup = document.querySelector('#image-popup');
@@ -148,14 +177,14 @@ initialCards.forEach(card => {
 });
 
 //////// Add Card Popup ////////
-const addCardPopup = document.querySelector('#add-card-popup');
-const addCardPopupForm = addCardPopup.querySelector('#add-card-form');
+const addCardPopupForm = document.forms.newCard;
+const addCardPopup = addCardPopupForm.closest('.popup');
+const addCardPopupOpenButton = document.querySelector('.profile__add-button');
+const addCardPopupCloseButton = addCardPopup.querySelector('#add-card-close-button');
 const addCardPopupTitle = addCardPopupForm.querySelector('#add-card-title');
 const addCardPopupLink = addCardPopupForm.querySelector('#add-card-link');
 
-// triggers //
-const addCardPopupOpenButton = document.querySelector('.profile__add-button');
-const addCardPopupCloseButton = addCardPopup.querySelector('#add-card-close-button');
+
 
 addCardPopupOpenButton.addEventListener('click', () =>{
   openPopup(addCardPopup);
@@ -172,3 +201,6 @@ addCardPopupForm.addEventListener('submit', (evt) =>{
   addCard(addCardPopupTitle.value, addCardPopupLink.value);
   closePopup(addCardPopup);
 });
+
+//////// Set pop-up events ////////
+setCloseEvents(profile.popup);

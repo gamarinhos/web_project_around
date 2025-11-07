@@ -11,12 +11,15 @@
   z-index: 1;
   visibility: hidden;
   opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease;
+  transform: scale(0);
 }
 
 .pop-image_active {
   visibility: visible;
   opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease;
 }
 
 .pop-image__close-button {

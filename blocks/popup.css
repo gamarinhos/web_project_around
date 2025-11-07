@@ -32,6 +32,7 @@
 .popup__close-button-icon {
     rotate: 45deg;
     transition: 0.3s ease-in-out;
+    pointer-events: none;
 }
 
 .popup__close-button:hover .popup__close-button-icon {
