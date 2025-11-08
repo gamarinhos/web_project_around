@@ -27,26 +27,23 @@ function closePopup(popup ) {
   }
 }
 
-function setCloseEvents() {
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      closePopup(document.querySelector('.popup_active'));  
+//////// Close Popup Events ////////
+document.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape') {
+    closePopup(document.querySelector('.popup_active'));  
+  }
+});
+
+document.querySelectorAll('.popup').forEach(popup => {
+  popup.addEventListener('click', (evt) => {
+    const isPopup = evt.target === evt.currentTarget;
+    const isCloseButton = evt.target.classList.contains('popup__close-button');
+
+    if (isPopup || isCloseButton) {
+      closePopup(popup);
     }
   });
-
-  document.querySelectorAll('.popup').forEach(popup => {
-    popup.addEventListener('click', (evt) => {
-      const isPopup = evt.target === evt.currentTarget;
-      const isCloseButton = evt.target.classList.contains('popup__close-button');
-
-      if (isPopup || isCloseButton) {
-        closePopup(popup);
-      }
-    });
-  });
-}
-
-setCloseEvents();
+});
 
 //////// Profile Popup ////////
 const profile = formSelector('profile', {
@@ -61,8 +58,6 @@ profile.openButton.addEventListener('click', function() {
   profile.inputs.name.value = profile.nameText.textContent;
   profile.inputs.job.value = profile.jobText.textContent;
 });
-
-
 
 function editProfile(evt) {
   evt.preventDefault();
