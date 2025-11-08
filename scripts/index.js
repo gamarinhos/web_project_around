@@ -73,26 +73,20 @@ function editProfile(evt) {
   profile.popup.classList.remove('popup_active');
 }
 
-// Save new data //
 profile.addEventListener('submit', editProfile);
 
 //////// Pop-image Popup////////
 const imagePopup = document.querySelector('#image-popup');
-const imagePopupImage = imagePopup.querySelector('.popup__image');
-const imagePopupTitle = imagePopup.querySelector('.popup__title');
-
-// triggers //
-const imagePopupCloseButton = imagePopup.querySelector('#image-close-button');
-
-imagePopupCloseButton.addEventListener('click', () => {
-  closePopup(imagePopup);
+Object.assign(imagePopup, {
+  image: imagePopup.querySelector('.popup__image'),
+  title: imagePopup.querySelector('.popup__title'),
 });
 
 function openImagePopup(image, title) {
+  imagePopup.image.src = image.src;
+  imagePopup.image.alt = title;
+  imagePopup.title.textContent = title;
   openPopup(imagePopup);
-  imagePopupImage.src = image.src;
-  imagePopupImage.alt = image.alt;
-  imagePopupTitle.textContent = title;
 }
 
 //////// Card creation function ////////
@@ -177,7 +171,7 @@ initialCards.forEach(card => {
     addCard(card.title, card.link);
 });
 
-//////// Add Card Popup ////////
+//////// New Card Popup ////////
 const newCard = formSelector('newCard', {
   openButton: document.querySelector('.profile__add-button')
 });
