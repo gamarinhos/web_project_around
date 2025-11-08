@@ -27,23 +27,26 @@ function closePopup(popup ) {
   }
 }
 
-//////// Close Popup Events ////////
-document.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
-    closePopup(document.querySelector('.popup_active'));  
-  }
-});
-
-document.querySelectorAll('.popup').forEach(popup => {
-  popup.addEventListener('click', (evt) => {
-    const isPopup = evt.target === evt.currentTarget;
-    const isCloseButton = evt.target.classList.contains('popup__close-button');
-
-    if (isPopup || isCloseButton) {
-      closePopup(popup);
+function setCloseEvents() {
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      closePopup(document.querySelector('.popup_active'));  
     }
   });
-});
+
+  document.querySelectorAll('.popup').forEach(popup => {
+    popup.addEventListener('click', (evt) => {
+      const isPopup = evt.target === evt.currentTarget;
+      const isCloseButton = evt.target.classList.contains('popup__close-button');
+
+      if (isPopup || isCloseButton) {
+        closePopup(popup);
+      }
+    });
+  });
+}
+
+setCloseEvents();
 
 //////// Profile Popup ////////
 const profile = formSelector('profile', {
@@ -183,4 +186,4 @@ newCard.form.addEventListener('submit', (evt) =>{
   closePopup(newCard.popup);
 });
 
-//////// Set pop-up events ////////
+//////// Form validation ////////
