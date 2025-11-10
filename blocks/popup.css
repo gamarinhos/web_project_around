@@ -143,8 +143,12 @@
   border-bottom: 1px solid hsl(0, 0%, 0%, 0.6);
 }
 
+.popup__input_type_error {
+  border-bottom: 1px solid #f00;
+}
+
 .popup__error {
-  /* visibility: hidden; */
+  visibility: hidden;
   color: #f00;
   font-size: 12px;
   font-weight: 400;
@@ -152,7 +156,7 @@
   margin-top: 5px;
 }
 
-.popup__error_visible {
+.popup__input_type_error + .popup__error {
   visibility: visible;
 }
 

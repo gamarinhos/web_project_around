@@ -27,18 +27,33 @@ function closePopup(popup ) {
   }
 }
 
+function showInputError(input) {
+  const errorMessage = input.nextElementSibling;
+  input.classList.add('popup__input_type_error');
+  errorMessage.textContent = input.validationMessage;
+}
+
+function hideInputError(input) {
+  const errorMessage = input.nextElementSibling;
+  input.classList.remove('popup__input_type_error');
+  errorMessage.textContent = '';
+}
+
+
+function formValidation(form) {}
+
 function setCloseEvents() {
   document.addEventListener('keydown', (evt) => {
     if (evt.key === 'Escape') {
       closePopup(document.querySelector('.popup_active'));  
     }
   });
-
+  
   document.querySelectorAll('.popup').forEach(popup => {
     popup.addEventListener('click', (evt) => {
       const isPopup = evt.target === evt.currentTarget;
       const isCloseButton = evt.target.classList.contains('popup__close-button');
-
+      
       if (isPopup || isCloseButton) {
         closePopup(popup);
       }
@@ -53,7 +68,7 @@ const profile = formSelector('profile', {
   nameText: document.querySelector('.profile__name'),
   jobText: document.querySelector('.profile__job'),
   openButton: document.querySelector('.profile__edit-button')
-  });
+});
 
 profile.openButton.addEventListener('click', function() {
   openPopup(profile.popup);
@@ -187,24 +202,3 @@ newCard.form.addEventListener('submit', (evt) =>{
 });
 
 //////// Form validation ////////
-function checkInputValidity(field) {
-  const errorMessage = field.nextElementSibling;
-  if (field.validity.valid) {
-    field.classList.remove('popup__input_type_error');
-    errorMessage.classList.remove('popup__error_visible');
-    errorMessage.textContent = '';
-  } else {
-    field.classList.add('popup__input_type_error');
-    errorMessage.classList.add('popup__error_visible');
-    errorMessage.textContent = field.validationMessage;
-  }
-}
-
-function formValidation(form) {
-  document.forms.forEach(form => {
-    form.addEventListener('input', (evt) => {
-      checkInputValidity(evt.target);
-    });
-  });
-}
-
