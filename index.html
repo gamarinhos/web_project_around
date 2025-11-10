@@ -136,6 +136,8 @@
               id="profile-name"
               class="popup__input"
               placeholder="Nome"
+              minlength="2"
+              maxlength="30"
               required
             />
             <input
@@ -144,6 +146,8 @@
               id="profile-job"
               class="popup__input"
               placeholder="Sobre"
+              minlength="2"
+              maxlength="200"
               required
             />
           </fieldset>
@@ -172,13 +176,17 @@
           <fieldset class="popup__fieldset">
             <input
               type="text"
+              name="title"
               id="add-card-title"
               class="popup__input"
               placeholder="Título"
+              minlength="2"
+              maxlength="30"
               required
             />
             <input
-              type="text"
+              type="url"
+              name="link"
               id="add-card-link"
               class="popup__input"
               placeholder="Link da imagem"

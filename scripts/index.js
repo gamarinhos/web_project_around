@@ -187,3 +187,23 @@ newCard.form.addEventListener('submit', (evt) =>{
 });
 
 //////// Form validation ////////
+function checkInputValidity(field) {
+  const errorMessage = field.nextElementSibling;
+  if (field.validity.valid) {
+    field.classList.remove('popup__input_type_error');
+    errorMessage.classList.remove('popup__error_visible');
+    errorMessage.textContent = '';
+  } else {
+    field.classList.add('popup__input_type_error');
+    errorMessage.classList.add('popup__error_visible');
+    errorMessage.textContent = field.validationMessage;
+  }
+}
+
+function formValidation(form) {
+  document.forms.forEach(form => {
+    form.addEventListener('input', (evt) => {
+      checkInputValidity(evt.target);
+    });
+  });
+}
