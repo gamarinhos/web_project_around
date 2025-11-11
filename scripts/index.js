@@ -146,12 +146,12 @@ setFormEvents(profile);
 const imagePopup = document.querySelector('#image-popup');
 Object.assign(imagePopup, {
   image: imagePopup.querySelector('.popup__image'),
-  title: imagePopup.querySelector('.popup__title'),
+  imageTitle: imagePopup.querySelector('.popup__title'),
 });
 
 function openImagePopup(image, title) {
   imagePopup.image.src = image.src;
-  imagePopup.title.textContent = title;
+  imagePopup.imageTitle.textContent = title;
   openPopup(imagePopup);
 }
 
