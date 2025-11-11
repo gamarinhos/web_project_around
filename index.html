@@ -128,7 +128,7 @@
       </button>
       <div class="popup__container">
         <h2 class="popup__title">Editar perfil</h2>
-        <form name="profile" class="popup__form" id="profile-form">
+        <form name="profile" class="popup__form" id="profile-form" novalidate>
           <fieldset class="popup__fieldset">
             <label for="profile-name" class="popup__label">
               <input
@@ -141,7 +141,7 @@
                 maxlength="30"
                 required
               />
-              <span class="popup__error">Temporary error message</span>
+              <span class="popup__error"></span>
             </label>
             <label for="profile-job" class="popup__label">
               <input
