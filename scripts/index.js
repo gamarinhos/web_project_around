@@ -1,3 +1,9 @@
+class Form{
+  constructor(formName){
+    this.form = document
+  }
+}
+
 const formSelector = (formName, additionalProperties = {}) => {
   const formElement = document.forms[formName];
   const popupElement = formElement.closest('.popup');
@@ -82,6 +88,13 @@ function setCloseEvents() {
 
 setCloseEvents();
 
+function imageErrorHandler(event){
+  const urlInserted = event.target.src;
+  event.target.src = './images/image-error.png';
+  throw `Image error: ${urlInserted}`;
+}
+
+
 function setFormEvents(form) {
   form.addEventListener('input', (evt) => {
     if (evt.target.validity.valid) {
@@ -112,8 +125,10 @@ function setFormEvents(form) {
       if (!validateForm(form.inputs)) {
         return; // Impede o submit se houver campos inválidos
       }
-      addCard(form.inputs.title.value, form.inputs.link.value);
+      const card = new Card(form.inputs.title.value, form.inputs.link.value);
+      card.addToSection();
       closePopup(form.popup);
+      form.reset();
     });
   }
 }
@@ -149,50 +164,53 @@ Object.assign(imagePopup, {
   imageTitle: imagePopup.querySelector('.popup__title'),
 });
 
-function openImagePopup(image, title) {
-  imagePopup.image.src = image.src;
+function openImagePopup(title, imageSrc) {
+  imagePopup.image.src = imageSrc;
   imagePopup.imageTitle.textContent = title;
   openPopup(imagePopup);
 }
 
-//////// Card creation function ////////
-const cardTemplate = document.querySelector('#card-template').content;
-const cardsSection = document.querySelector('.content__section-cards');
+//////// Card creation class ////////
+class Card {
+  #cardSection = document.querySelector('.content__section-cards');
+  #cardTemplate = document.querySelector('#card-template').content;
+     
+  constructor(title, imageSrc, alt = title){
+    this._card = this.#cardTemplate.cloneNode(true).querySelector('.card');
+    this._cardTitle = this._card.querySelector('.card__title');
+    this._cardImage = this._card.querySelector('.card__image');
+    this._isLiked = false;
 
-function addCard(title, image, alt = title) {
-  const card = cardTemplate.cloneNode(true).querySelector('.card');
-  const cardTitle = card.querySelector('.card__title');
-  const cardImage = card.querySelector('.card__image');
+    this._cardTitle.textContent = title;
+    this._cardTitle.title = title;
+    this._cardImage.src = imageSrc;
+    this._cardImage.alt = alt;
 
-  cardTitle.textContent = title;
-  cardTitle.title = title;
-  cardImage.src = image;
-  cardImage.alt = alt;
-
-  card.addEventListener('click', (e) => {
-    const target = e.target;
-    const hasClass = (name) => target.classList.contains(name);
-
+    this._card.addEventListener('click', (event) => {
+      const target = event.target;
+      const hasClass = (name) => target.classList.contains(name);
   
-    if (hasClass('card__image')) {
-      openImagePopup(target, title);
-    }
+      if (hasClass('card__image')) {
+        openImagePopup(title, target.src);
+      }
 
-    if (hasClass('card__like-button')) {
-      target.classList.toggle('card__like-button_active');
-    }
+      if (hasClass('card__like-button')) {
+        target.classList.toggle('card__like-button_active');
+        this._isLiked = !this._isLiked;
+      }
 
-    if (hasClass('card__trash-button')) {
-      card.remove();
-    }
-  });
+      if (hasClass('card__trash-button')) {
+        this._card.remove();
+      }
+    })
 
-  cardImage.addEventListener('error', (e) => {
-    e.target.src = './images/image-error.png';
-    console.log(`Image error: ${e.target}`);
-  });
+    this._cardImage.addEventListener('error', imageErrorHandler);
+  } 
+  
 
-  cardsSection.prepend(card);
+  addToSection(){
+    this.#cardSection.prepend(this._card);
+  }
 }
 
 //////// Initial Cards ////////
@@ -234,8 +252,9 @@ const initialCards = [
   }
 ];
 
-initialCards.forEach(card => {
-    addCard(card.title, card.link);
+initialCards.forEach(val => {
+  const card = new Card(val.title, val.link, val.alt);
+  card.addToSection();
 });
 
 //////// New Card Popup ////////
@@ -248,3 +267,4 @@ newCard.openButton.addEventListener('click', () =>{
 });
 
 setFormEvents(newCard)
+
