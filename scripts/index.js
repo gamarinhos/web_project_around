@@ -1,7 +1,56 @@
-class Form{
-  constructor(formName){
-    this.form = document
+class Popup{
+  constructor(popupSelector, additionalProperties = {}){
+    this.popup = document.querySelector(popupSelector);
+
+    this.popup.addEventListener('click', (e) =>{
+      const clickFrom = () => 
+    });
+
+    this.form = this.popup.querySelector('form');
+    
+    if (this.form) {
+      this.inputs = Array.from(this.form.querySelectorAll('input')).reduce((obj, input) => {
+        obj[input.name] = input;
+        return obj;
+      }, {});
+      this.submitButton = this.form.querySelector('.popup__submit');
+      this.closeButton = popupElement.querySelector('.popup__close-button');
+
+      this.form.addEventListener('submit', )
+    }
+
+    Object.assign(this, additionalProperties)
   }
+
+  #escapeToClose(evt){
+    if (evt.key === 'Escape'){
+      this.closePopup()
+    }
+  }
+
+  #clickToClose(evt){
+    const isPopup = evt.target === evt.currentTarget;
+    const isCloseButton = evt.target.classList.contains('popup__close-button');
+      
+    if (isPopup || isCloseButton) {
+      this.closePopup();
+    };
+  }
+
+  openPopup(){
+    this.popup.classList.add('popup_active');
+    this.popup.addEventListener('keydown', this.#escapeToClose);
+    this.popup.addEventListener('click', this.#clickToClose)
+  }
+  
+  closePopup(){
+    this.popup.classList.remove('popup_active');
+    this.popup.removeEventListener('keydow', this.#escapeToClose);
+    this.popup.removeEventListener('click', this.#clickToClose);
+  }
+
+
+
 }
 
 const formSelector = (formName, additionalProperties = {}) => {
@@ -34,15 +83,15 @@ function closePopup(popup ) {
 }
 
 function showInputError(input) {
-  const errorMessage = input.nextElementSibling;
+  const errorElement = input.nextElementSibling;
   input.classList.add('popup__input_type_error');
-  errorMessage.textContent = input.validationMessage;
+  errorElement.textContent = input.validationMessage;
 }
 
 function hideInputError(input) {
-  const errorMessage = input.nextElementSibling;
+  const errorElement = input.nextElementSibling;
   input.classList.remove('popup__input_type_error');
-  errorMessage.textContent = '';
+  errorElement.textContent = '';
 }
 
 function toggleButtonState(button, inputList) {
@@ -173,10 +222,13 @@ function openImagePopup(title, imageSrc) {
 //////// Card creation class ////////
 class Card {
   #cardSection = document.querySelector('.content__section-cards');
-  #cardTemplate = document.querySelector('#card-template').content;
+  #cardTemplate = document
+    .querySelector('#card-template')
+    .content
+    .querySelector('.card');
      
   constructor(title, imageSrc, alt = title){
-    this._card = this.#cardTemplate.cloneNode(true).querySelector('.card');
+    this._card = this.#cardTemplate.cloneNode(true);
     this._cardTitle = this._card.querySelector('.card__title');
     this._cardImage = this._card.querySelector('.card__image');
     this._isLiked = false;
