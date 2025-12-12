@@ -149,14 +149,7 @@ function editProfile() {
 
 setFormEvents(profile);
 
-//////// Pop-image Popup////////
-const imagePopup = document.querySelector('#image-popup');
-Object.assign(imagePopup, {
-  image: imagePopup.querySelector('.popup__image'),
-  imageTitle: imagePopup.querySelector('.popup__title'),
-});
-
-//////// Card creation class ////////
+//////// Initial Cards ////////
 (function initialCards() {
   const initialCards = [
     {
