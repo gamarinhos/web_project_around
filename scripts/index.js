@@ -1,57 +1,5 @@
-class Popup{
-  constructor(popupSelector, additionalProperties = {}){
-    this.popup = document.querySelector(popupSelector);
-
-    this.popup.addEventListener('click', (e) =>{
-      const clickFrom = () => 
-    });
-
-    this.form = this.popup.querySelector('form');
-    
-    if (this.form) {
-      this.inputs = Array.from(this.form.querySelectorAll('input')).reduce((obj, input) => {
-        obj[input.name] = input;
-        return obj;
-      }, {});
-      this.submitButton = this.form.querySelector('.popup__submit');
-      this.closeButton = popupElement.querySelector('.popup__close-button');
-
-      this.form.addEventListener('submit', )
-    }
-
-    Object.assign(this, additionalProperties)
-  }
-
-  #escapeToClose(evt){
-    if (evt.key === 'Escape'){
-      this.closePopup()
-    }
-  }
-
-  #clickToClose(evt){
-    const isPopup = evt.target === evt.currentTarget;
-    const isCloseButton = evt.target.classList.contains('popup__close-button');
-      
-    if (isPopup || isCloseButton) {
-      this.closePopup();
-    };
-  }
-
-  openPopup(){
-    this.popup.classList.add('popup_active');
-    this.popup.addEventListener('keydown', this.#escapeToClose);
-    this.popup.addEventListener('click', this.#clickToClose)
-  }
-  
-  closePopup(){
-    this.popup.classList.remove('popup_active');
-    this.popup.removeEventListener('keydow', this.#escapeToClose);
-    this.popup.removeEventListener('click', this.#clickToClose);
-  }
-
-
-
-}
+import Card from './Card.js';
+const cardSection = document.querySelector('.content__section-cards');
 
 const formSelector = (formName, additionalProperties = {}) => {
   const formElement = document.forms[formName];
@@ -59,26 +7,47 @@ const formSelector = (formName, additionalProperties = {}) => {
   const properties = {
     form: formElement,
     popup: popupElement,
-    inputs: Array.from(formElement.querySelectorAll('input')).reduce((obj, input) => {
-      obj[input.name] = input;
-      return obj;
-    }, {}),
+    inputs: Array.from(formElement.querySelectorAll('input')).reduce(
+      (obj, input) => {
+        obj[input.name] = input;
+        return obj;
+      },
+      {}
+    ),
     submitButton: formElement.querySelector('.popup__submit'),
     closeButton: popupElement.querySelector('.popup__close-button'),
-  }
+  };
+
+  const containerElement = formElement.closest('.popup__container');
+  containerElement.addEventListener('click', (e) => e.stopPropagation());
 
   return Object.assign(formElement, properties, additionalProperties);
-}
+};
 
 function openPopup(popup) {
-  const popupClass = popup.classList.value.split(' ')[0];
-    popup.classList.add(`${popupClass}_active`);
+  popup.classList.add('popup_active');
+
+  document.addEventListener('keydown', handleEscapeKey);
+  popup.addEventListener('click', handleOverlayClick);
 }
 
-function closePopup(popup ) {
-  if (popup) {
-    const popupClass = popup.classList.value.split(' ')[0];
-    popup.classList.remove(`${popupClass}_active`);
+function closePopup(popup) {
+  popup.classList.remove('popup_active');
+
+  document.removeEventListener('keydown', handleEscapeKey);
+  popup.removeEventListener('click', handleOverlayClick);
+}
+
+function handleOverlayClick(event) {
+  event.currentTarget.classList.remove('popup_active');
+}
+
+function handleEscapeKey(event) {
+  if (event.key === 'Escape') {
+    const activePopup = document.querySelector('.popup_active');
+    if (activePopup) {
+      closePopup(activePopup);
+    }
   }
 }
 
@@ -95,19 +64,19 @@ function hideInputError(input) {
 }
 
 function toggleButtonState(button, inputList) {
-  const hasInvalidInput = (inputs) => Object.values(inputs).some(input => !input.validity.valid);
+  const hasInvalidInput = (inputs) =>
+    Object.values(inputs).some((input) => !input.validity.valid);
 
   if (hasInvalidInput(inputList)) {
-    button.classList.add('popup__submit_disabled')
+    button.classList.add('popup__submit_disabled');
   } else {
-    button.classList.remove('popup__submit_disabled')
+    button.classList.remove('popup__submit_disabled');
   }
 }
 
 function validateForm(inputs) {
-  // Valida todos os inputs e mostra erros se necessário
   let isValid = true;
-  Object.values(inputs).forEach(input => {
+  Object.values(inputs).forEach((input) => {
     if (!input.validity.valid) {
       showInputError(input);
       isValid = false;
@@ -115,34 +84,6 @@ function validateForm(inputs) {
   });
   return isValid;
 }
-
-function setCloseEvents() {
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      closePopup(document.querySelector('.popup_active'));  
-    }
-  });
-  
-  document.querySelectorAll('.popup').forEach(popup => {
-    popup.addEventListener('click', (evt) => {
-      const isPopup = evt.target === evt.currentTarget;
-      const isCloseButton = evt.target.classList.contains('popup__close-button');
-      
-      if (isPopup || isCloseButton) {
-        closePopup(popup);
-      }
-    });
-  });
-}
-
-setCloseEvents();
-
-function imageErrorHandler(event){
-  const urlInserted = event.target.src;
-  event.target.src = './images/image-error.png';
-  throw `Image error: ${urlInserted}`;
-}
-
 
 function setFormEvents(form) {
   form.addEventListener('input', (evt) => {
@@ -155,7 +96,7 @@ function setFormEvents(form) {
     toggleButtonState(form.submitButton, form.inputs);
   });
 
-  const formIs = (formName) => form.getAttribute('name') === formName
+  const formIs = (formName) => form.getAttribute('name') === formName;
   if (formIs('profile')) {
     form.addEventListener('submit', (evt) => {
       evt.preventDefault();
@@ -174,8 +115,11 @@ function setFormEvents(form) {
       if (!validateForm(form.inputs)) {
         return; // Impede o submit se houver campos inválidos
       }
-      const card = new Card(form.inputs.title.value, form.inputs.link.value);
-      card.addToSection();
+      const card = new Card({
+        title: form.inputs.title.value,
+        link: form.inputs.link.value,
+      });
+      cardSection.append(card.getCardElement());
       closePopup(form.popup);
       form.reset();
     });
@@ -186,10 +130,10 @@ function setFormEvents(form) {
 const profile = formSelector('profile', {
   nameText: document.querySelector('.profile__name'),
   jobText: document.querySelector('.profile__job'),
-  openButton: document.querySelector('.profile__edit-button')
+  openButton: document.querySelector('.profile__edit-button'),
 });
 
-profile.openButton.addEventListener('click', function() {
+profile.openButton.addEventListener('click', () => {
   openPopup(profile.popup);
 
   profile.inputs.name.value = profile.nameText.textContent;
@@ -203,7 +147,6 @@ function editProfile() {
   profile.popup.classList.remove('popup_active');
 }
 
-
 setFormEvents(profile);
 
 //////// Pop-image Popup////////
@@ -213,110 +156,59 @@ Object.assign(imagePopup, {
   imageTitle: imagePopup.querySelector('.popup__title'),
 });
 
-function openImagePopup(title, imageSrc) {
-  imagePopup.image.src = imageSrc;
-  imagePopup.imageTitle.textContent = title;
-  openPopup(imagePopup);
-}
-
 //////// Card creation class ////////
-class Card {
-  #cardSection = document.querySelector('.content__section-cards');
-  #cardTemplate = document
-    .querySelector('#card-template')
-    .content
-    .querySelector('.card');
-     
-  constructor(title, imageSrc, alt = title){
-    this._card = this.#cardTemplate.cloneNode(true);
-    this._cardTitle = this._card.querySelector('.card__title');
-    this._cardImage = this._card.querySelector('.card__image');
-    this._isLiked = false;
+(function initialCards() {
+  const initialCards = [
+    {
+      title: 'Lago di Braies',
+      link: './images/3dbe7008cf5622c19034ae50ddc30348e49c2ac6.webp',
+      alt: 'barcos atracados em um lago com montanhas ao fundo',
+    },
+    {
+      title: 'Lago Louise',
+      link: './images/221cfcb6f665950ee520ab6c9cc460dd246710c4.webp',
+      alt: 'montanhas com lago cristalino ciano cristalino refletindo as montanhas e o céu claro',
+    },
+    {
+      title: 'Parque Nacional da Vanoise ',
+      link: './images/906f6bf6cf25eb556dd75f223d72ade0d4bccb93.webp',
+      alt: 'paisagem montanhosa com lago refletindo as montanhas e o céu',
+    },
+    {
+      title: 'Vale de Yosemite',
+      link: './images/4678c5ba8916c0b28b3e15fdbea3fa7a96fe0cd5.webp',
+      alt: 'rio cercado por árvores com montanhas ao fundo',
+    },
+    {
+      title: 'Montanhas Carecas',
+      link: './images/5777c3a01f7043c8a872fcb759976babd53a3d4e.webp',
+      alt: 'por do sol sobre montanhas',
+    },
+    {
+      title: 'Latemar',
+      link: './images/de4f23b1370b713bab6281cf68c1f6d4782362bd.webp',
+      alt: 'montanhas sob um céu noturno estrelado',
+    },
+    {
+      title: 'Error example',
+      link: 'https://broken-url.com',
+      alt: 'Error example',
+    },
+  ];
 
-    this._cardTitle.textContent = title;
-    this._cardTitle.title = title;
-    this._cardImage.src = imageSrc;
-    this._cardImage.alt = alt;
-
-    this._card.addEventListener('click', (event) => {
-      const target = event.target;
-      const hasClass = (name) => target.classList.contains(name);
-  
-      if (hasClass('card__image')) {
-        openImagePopup(title, target.src);
-      }
-
-      if (hasClass('card__like-button')) {
-        target.classList.toggle('card__like-button_active');
-        this._isLiked = !this._isLiked;
-      }
-
-      if (hasClass('card__trash-button')) {
-        this._card.remove();
-      }
-    })
-
-    this._cardImage.addEventListener('error', imageErrorHandler);
-  } 
-  
-
-  addToSection(){
-    this.#cardSection.prepend(this._card);
-  }
-}
-
-//////// Initial Cards ////////
-const initialCards = [
-  {
-    title: "Lago di Braies",
-    link: "./images/3dbe7008cf5622c19034ae50ddc30348e49c2ac6.webp",
-    alt: "barcos atracados em um lago com montanhas ao fundo"
-  },
-  {
-    title: "Lago Louise",
-    link: "./images/221cfcb6f665950ee520ab6c9cc460dd246710c4.webp",
-    alt: "montanhas com lago cristalino ciano cristalino refletindo as montanhas e o céu claro"
-  },
-  {
-    title: "Parque Nacional da Vanoise ",
-    link: "./images/906f6bf6cf25eb556dd75f223d72ade0d4bccb93.webp",
-    alt: "paisagem montanhosa com lago refletindo as montanhas e o céu"
-  },
-  {
-    title: "Vale de Yosemite",
-    link: "./images/4678c5ba8916c0b28b3e15fdbea3fa7a96fe0cd5.webp",
-    alt: "rio cercado por árvores com montanhas ao fundo"
-  },
-  {
-    title: "Montanhas Carecas",
-    link: "./images/5777c3a01f7043c8a872fcb759976babd53a3d4e.webp",
-    alt: "por do sol sobre montanhas"
-  },
-  {
-    title: "Latemar",
-    link: "./images/de4f23b1370b713bab6281cf68c1f6d4782362bd.webp",
-    alt: "montanhas sob um céu noturno estrelado"
-  },
-  {
-    title: "Error example",
-    link: "https://broken-url.com",
-    alt: "Error example"
-  }
-];
-
-initialCards.forEach(val => {
-  const card = new Card(val.title, val.link, val.alt);
-  card.addToSection();
-});
+  initialCards.forEach((element) => {
+    const card = new Card(element);
+    cardSection.append(card.getCardElement('#card-template'));
+  });
+})();
 
 //////// New Card Popup ////////
 const newCard = formSelector('newCard', {
-  openButton: document.querySelector('.profile__add-button')
+  openButton: document.querySelector('.profile__add-button'),
 });
 
-newCard.openButton.addEventListener('click', () =>{
+newCard.openButton.addEventListener('click', () => {
   openPopup(newCard.popup);
 });
 
-setFormEvents(newCard)
-
+setFormEvents(newCard);
