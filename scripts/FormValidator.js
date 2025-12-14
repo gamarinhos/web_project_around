@@ -1,7 +1,7 @@
 class FormValidator {
-  /* Decidi aproveitar a classe para atribuir todas as funções relacionadas aos formulários */
   constructor(data = {}) {
     this._form = data.form;
+    this._submitButton = this._form.querySelector('button[type="submit"]');
     this._inputs = Array.from(this._form.querySelectorAll('input')).reduce(
       (obj, input) => {
         obj[input.name] = input;
@@ -9,42 +9,14 @@ class FormValidator {
       },
       {}
     );
-    this._submitButton = this._form.querySelector(
-      'button' /* [type="submit"]' */
-    );
-    this._popup = this._form.closest('.popup');
-    this._container = this._popup.querySelector('.popup__container');
-
-    this._bindMethods('closePopup', '_handleEscapeKey');
   }
 
   get form() {
     return this._form;
   }
 
-  get submitButton() {
-    return this._submitButton;
-  }
-
   get inputs() {
     return this._inputs;
-  }
-
-  _bindMethods(...methods) {
-    methods.forEach((method) => {
-      this[method] = this[method].bind(this);
-    });
-    /* Sei que ainda não vimos isso nessa sprint,
-     * mas, como decidi adicionar os métodos de manipulação do popup, se fez necessário.
-     */
-  }
-
-  getFormElements(additionalProperties = {}) {
-    return {
-      form: this._form,
-      inputs: this._inputs,
-      submitButton: this._submitButton,
-    };
   }
 
   //// Form validation
@@ -65,13 +37,6 @@ class FormValidator {
     }
 
     return isInvalid;
-  }
-
-  hasInvalidInput() {
-    const res = Object.values(this._inputs).some((input) => {
-      return this._inputValidation(input);
-    });
-    return res;
   }
 
   _showInputError(input) {
@@ -95,48 +60,37 @@ class FormValidator {
     this._submitButton.classList.remove('popup__submit_disabled');
   }
 
-  //// Popup events
-  openPopup() {
-    this._popup.classList.add('popup_active');
-
-    this._container.addEventListener('click', this._handleContainerClick);
-    this._popup.addEventListener('click', this.closePopup);
-    document.addEventListener('keydow', this._handleEscapeKey);
-  }
-
-  closePopup() {
-    this._popup.classList.remove('popup_active');
-
-    this._container.removeEventListener('click', this._handleContainerClick);
-    this._popup.removeEventListener('click', this.closePopup);
-    document.removeEventListener('keydown', this._handleEscapeKey);
-  }
-
-  _handleContainerClick(e) {
-    e.stopPropagation();
-  }
-
-  _handleEscapeKey(event) {
-    if (event.key === 'Escape') {
-      this.closePopup();
-    }
+  hasInvalidInput() {
+    const res = Object.values(this._inputs).some((input) => {
+      return this._inputValidation(input);
+    });
+    return res;
   }
 }
 
-/* Tentei usar essa classe a seguir mas o validador automático não permitiu.
- * Fica para a próxima sprint então...
+/* Me peguei repetindo os métodos a seguir para os popups e,
+ * para não ter que declará-los no FormValidator, extendi a classe.
+ * Assim posso obter os métodos de manipulação do popup sem comprometer
+ * a lógica principal do validador de formulário.
  *
- * Decidi adicionar esses métodos na classe FormValidator por enquanto
+ * ainda é o FormValidator... com alguns adicionais que achei necessários :)
  */
 class FormPopup extends FormValidator {
   constructor(data = {}) {
     super(data);
     this._popup = this._form.closest('.popup');
-    this._container = this._popup('.popup__container');
-
-    this._setPopupEvents();
+    this._container = this._popup.querySelector('.popup__container');
 
     this._bindMethods('closePopup', '_handleEscapeKey');
+  }
+
+  _bindMethods(...methods) {
+    methods.forEach((method) => {
+      this[method] = this[method].bind(this);
+    });
+    /* Sei que ainda não vimos isso nessa sprint,
+     * mas, como decidi adicionar os métodos de manipulação do popup, precisei usar.
+     */
   }
 
   openPopup() {

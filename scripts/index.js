@@ -1,13 +1,12 @@
-import { FormValidator } from './FormValidator.js';
+import { FormPopup } from './FormValidator.js';
 import Card from './Card.js';
 
 //// Popup form that update profile info ////
 (function profilePopup() {
-  const profileForm = new FormValidator({
+  const profileForm = new FormPopup({
     form: document.forms.profile,
   });
   profileForm.enableValidation();
-  profileForm.element = profileForm.getFormElements();
   const nameInput = profileForm.inputs.name;
   const jobInput = profileForm.inputs.job;
   const profileSection = {
@@ -55,11 +54,10 @@ import Card from './Card.js';
 
 //// Popup form that add cards ////
 (function newCardPopup() {
-  const newCardForm = new FormValidator({
+  const newCardForm = new FormPopup({
     form: document.forms.newCard,
   });
   newCardForm.enableValidation();
-  newCardForm.element = newCardForm.getFormElements();
 
   const openButton = document.querySelector('.profile__add-button');
   openButton.addEventListener('click', () => newCardForm.openPopup());
