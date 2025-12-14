@@ -1,156 +1,94 @@
+import { FormValidator } from './FormValidator.js';
 import Card from './Card.js';
-const cardSection = document.querySelector('.content__section-cards');
 
-const formSelector = (formName, additionalProperties = {}) => {
-  const formElement = document.forms[formName];
-  const popupElement = formElement.closest('.popup');
-  const properties = {
-    form: formElement,
-    popup: popupElement,
-    inputs: Array.from(formElement.querySelectorAll('input')).reduce(
-      (obj, input) => {
-        obj[input.name] = input;
-        return obj;
-      },
-      {}
-    ),
-    submitButton: formElement.querySelector('.popup__submit'),
-    closeButton: popupElement.querySelector('.popup__close-button'),
+//// Popup form that update profile info ////
+(function profilePopup() {
+  const profileForm = new FormValidator({
+    form: document.forms.profile,
+  });
+  profileForm.enableValidation();
+  profileForm.element = profileForm.getFormElements();
+  const nameInput = profileForm.inputs.name;
+  const jobInput = profileForm.inputs.job;
+  const profileSection = {
+    name: document.querySelector('.profile__name'),
+    job: document.querySelector('.profile__job'),
   };
 
-  const containerElement = formElement.closest('.popup__container');
-  containerElement.addEventListener('click', (e) => e.stopPropagation());
-
-  return Object.assign(formElement, properties, additionalProperties);
-};
-
-function openPopup(popup) {
-  popup.classList.add('popup_active');
-
-  document.addEventListener('keydown', handleEscapeKey);
-  popup.addEventListener('click', handleOverlayClick);
-}
-
-function closePopup(popup) {
-  popup.classList.remove('popup_active');
-
-  document.removeEventListener('keydown', handleEscapeKey);
-  popup.removeEventListener('click', handleOverlayClick);
-}
-
-function handleOverlayClick(event) {
-  event.currentTarget.classList.remove('popup_active');
-}
-
-function handleEscapeKey(event) {
-  if (event.key === 'Escape') {
-    const activePopup = document.querySelector('.popup_active');
-    if (activePopup) {
-      closePopup(activePopup);
-    }
+  function fillProfileFormInputs() {
+    nameInput.value = profileSection.name.textContent;
+    jobInput.value = profileSection.job.textContent;
   }
-}
 
-function showInputError(input) {
-  const errorElement = input.nextElementSibling;
-  input.classList.add('popup__input_type_error');
-  errorElement.textContent = input.validationMessage;
-}
+  // Open popup event
+  const openButton = document.querySelector('.profile__edit-button');
 
-function hideInputError(input) {
-  const errorElement = input.nextElementSibling;
-  input.classList.remove('popup__input_type_error');
-  errorElement.textContent = '';
-}
-
-function toggleButtonState(button, inputList) {
-  const hasInvalidInput = (inputs) =>
-    Object.values(inputs).some((input) => !input.validity.valid);
-
-  if (hasInvalidInput(inputList)) {
-    button.classList.add('popup__submit_disabled');
-  } else {
-    button.classList.remove('popup__submit_disabled');
-  }
-}
-
-function validateForm(inputs) {
-  let isValid = true;
-  Object.values(inputs).forEach((input) => {
-    if (!input.validity.valid) {
-      showInputError(input);
-      isValid = false;
-    }
-  });
-  return isValid;
-}
-
-function setFormEvents(form) {
-  form.addEventListener('input', (evt) => {
-    if (evt.target.validity.valid) {
-      hideInputError(evt.target);
-    } else {
-      showInputError(evt.target);
-    }
-
-    toggleButtonState(form.submitButton, form.inputs);
+  openButton.addEventListener('click', () => {
+    fillProfileFormInputs();
+    profileForm.hasInvalidInput();
+    profileForm.toggleButtonState();
+    profileForm.openPopup();
   });
 
-  const formIs = (formName) => form.getAttribute('name') === formName;
-  if (formIs('profile')) {
-    form.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      // Valida o formulário antes de submeter
-      if (!validateForm(form.inputs)) {
-        return; // Impede o submit se houver campos inválidos
-      }
-      editProfile();
-      closePopup(form.popup);
-    });
+  // Form subimission event
+  function updateProfileInfo(data = { name, job }) {
+    profileSection.name.textContent = data.name;
+    profileSection.job.textContent = data.job;
   }
-  if (formIs('newCard')) {
-    form.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      // Valida o formulário antes de submeter
-      if (!validateForm(form.inputs)) {
-        return; // Impede o submit se houver campos inválidos
-      }
-      const card = new Card({
-        title: form.inputs.title.value,
-        link: form.inputs.link.value,
-      });
-      cardSection.append(card.getCardElement());
-      closePopup(form.popup);
-      form.reset();
-    });
+
+  profileForm.form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (profileForm.hasInvalidInput()) {
+      return; // stop execution
+    }
+
+    const values = {
+      name: nameInput.value,
+      job: jobInput.value,
+    };
+
+    updateProfileInfo(values);
+    profileForm.closePopup();
+  });
+})();
+
+//// Popup form that add cards ////
+(function newCardPopup() {
+  const newCardForm = new FormValidator({
+    form: document.forms.newCard,
+  });
+  newCardForm.enableValidation();
+  newCardForm.element = newCardForm.getFormElements();
+
+  const openButton = document.querySelector('.profile__add-button');
+  openButton.addEventListener('click', () => newCardForm.openPopup());
+
+  newCardForm.form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (newCardForm.hasInvalidInput()) {
+      return; // stop execution
+    }
+
+    const values = {
+      title: newCardForm.inputs.title.value,
+      link: newCardForm.inputs.link.value,
+    };
+
+    addNewCard(values);
+    newCardForm.closePopup();
+    newCardForm.form.reset();
+  });
+
+  const cardSection = document.querySelector('.content__section-cards');
+
+  function addNewCard(data = { title, link, alt }) /* Object hint */ {
+    const card = new Card(data);
+    cardSection.append(card.getCardElement('#card-template'));
   }
-}
 
-//////// Profile Popup ////////
-const profile = formSelector('profile', {
-  nameText: document.querySelector('.profile__name'),
-  jobText: document.querySelector('.profile__job'),
-  openButton: document.querySelector('.profile__edit-button'),
-});
-
-profile.openButton.addEventListener('click', () => {
-  openPopup(profile.popup);
-
-  profile.inputs.name.value = profile.nameText.textContent;
-  profile.inputs.job.value = profile.jobText.textContent;
-});
-
-function editProfile() {
-  profile.nameText.textContent = profile.inputs.name.value;
-  profile.jobText.textContent = profile.inputs.job.value;
-
-  profile.popup.classList.remove('popup_active');
-}
-
-setFormEvents(profile);
-
-//////// Initial Cards ////////
-(function initialCards() {
+  //// Page initial cards ////
   const initialCards = [
     {
       title: 'Lago di Braies',
@@ -189,19 +127,5 @@ setFormEvents(profile);
     },
   ];
 
-  initialCards.forEach((element) => {
-    const card = new Card(element);
-    cardSection.append(card.getCardElement('#card-template'));
-  });
+  initialCards.forEach(addNewCard);
 })();
-
-//////// New Card Popup ////////
-const newCard = formSelector('newCard', {
-  openButton: document.querySelector('.profile__add-button'),
-});
-
-newCard.openButton.addEventListener('click', () => {
-  openPopup(newCard.popup);
-});
-
-setFormEvents(newCard);
