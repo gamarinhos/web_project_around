@@ -16,22 +16,30 @@ export default class Card {
 
   getCardElement(templateSelector) {
     this._card = document
-      .querySelector(templateSelector || '#card-template')
-      .content.firstElementChild.cloneNode(true);
+      .querySelector(templateSelector)
+      ?.content.firstElementChild.cloneNode(true);
 
-    this._cardTitle = this._card.querySelector('.card__title');
-    this._cardImage = this._card.querySelector('.card__image');
+    if (this._card) {
+      // Works for templates with different block name:
+      this._cardSelector = this._card.className;
+      this._cardTitle = this._card.querySelector(
+        `.${this._cardSelector}__title`
+      );
+      this._cardImage = this._card.querySelector(
+        `.${this._cardSelector}__image`
+      );
 
-    this._cardTitle.textContent = this._title;
-    this._cardTitle.title = this._title;
-    this._cardImage.src = this._link;
-    this._cardImage.alt = this._alt;
+      this._cardTitle.textContent = this._title;
+      this._cardTitle.title = this._title;
+      this._cardImage.src = this._link;
+      this._cardImage.alt = this._alt;
 
-    this._getPopupElement();
+      this._getPopupElement();
 
-    this._setCardEvents();
+      this._setCardEvents();
 
-    return this._card;
+      return this._card;
+    }
   }
 
   _getPopupElement() {
