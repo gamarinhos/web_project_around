@@ -69,10 +69,9 @@ export default class Card {
       }
     });
 
-    this._cardImage.addEventListener(
-      'error',
-      (event) => (event.target.src = '../images/image-error.png')
-    );
+    this._cardImage.addEventListener('error', (event) => {
+      event.target.src = '../images/image-error.png';
+    });
   }
 
   _openImagePopup() {
