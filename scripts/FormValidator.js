@@ -84,7 +84,7 @@ export default class FormValidator {
 
     this._container.addEventListener('click', this._handleContainerClick);
     this._popup.addEventListener('click', this._closePopup);
-    document.addEventListener('keydow', this._handleEscapeKey);
+    document.addEventListener('keydown', this._handleEscapeKey);
   }
 
   _handleContainerClick(e) {
