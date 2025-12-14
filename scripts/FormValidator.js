@@ -21,7 +21,7 @@ export default class FormValidator {
       this[method] = this[method].bind(this);
     });
     /* Sei que ainda não vimos isso nessa sprint,
-     * mas, como decidi centralizar todos as funções na classe, se fez necessário.
+     * mas, como decidi centralizar todos as funções na classe, se fez necessário
      */
   }
 
@@ -84,7 +84,7 @@ export default class FormValidator {
 
     this._container.addEventListener('click', this._handleContainerClick);
     this._popup.addEventListener('click', this._closePopup);
-    document.addEventListener('keydown', this._handleEscapeKey);
+    document.addEventListener('keydow', this._handleEscapeKey);
   }
 
   _handleContainerClick(e) {
