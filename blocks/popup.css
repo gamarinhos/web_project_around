@@ -143,8 +143,8 @@
   border-bottom: 1px solid hsl(0, 0%, 0%, 0.6);
 }
 
-.popup__input_type_error, 
-.popup__input_type_error:focus {
+.popup__input_status_invalid, 
+.popup__input_status_invalid:focus {
   border-bottom: 1px solid #f00;
 }
 
@@ -157,7 +157,7 @@
   margin-top: 5px;
 }
 
-.popup__input_type_error + .popup__error {
+.popup__input_status_invalid + .popup__error {
   visibility: visible;
 }
 
@@ -182,7 +182,7 @@
 }
 
 .popup__submit_disabled {
-  background-color: transparent;
+  background-color: white;
   color: #000;
   border: 1px solid #000;
   opacity: 0.2;
