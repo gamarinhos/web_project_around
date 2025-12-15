@@ -1,6 +1,6 @@
 class FormValidator {
-  constructor(data = {}) {
-    this._form = data.form;
+  constructor({ form }) {
+    this._form = form;
     this._submitButton = this._form.querySelector('button[type="submit"]');
     this._inputs = Array.from(this._form.querySelectorAll('input')).reduce(
       (obj, input) => {
