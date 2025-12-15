@@ -1,8 +1,8 @@
 export default class Card {
-  constructor({ title, link, alt }) {
+  constructor({ title, link, alt = title }) {
     this._title = title;
     this._link = link;
-    this._alt = alt ?? this._title;
+    this._alt = alt;
     this._isLiked = false;
 
     this._bindMethods('_closeImagePopup', '_handleEscapeKey');

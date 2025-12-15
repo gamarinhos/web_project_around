@@ -7,8 +7,7 @@ import Card from './Card.js';
     form: document.forms.profile,
   });
   profileForm.enableValidation();
-  const nameInput = profileForm.inputs.name;
-  const jobInput = profileForm.inputs.job;
+  const { name: nameInput, job: jobInput } = profileForm.inputs;
   const profileSection = {
     name: document.querySelector('.profile__name'),
     job: document.querySelector('.profile__job'),
