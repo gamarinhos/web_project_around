@@ -98,7 +98,7 @@ class FormPopup extends FormValidator {
 
     this._container.addEventListener('click', this._handleContainerClick);
     this._popup.addEventListener('click', this.closePopup);
-    document.addEventListener('keydow', this._handleEscapeKey);
+    document.addEventListener('keydown', this._handleEscapeKey);
   }
 
   closePopup() {
