@@ -19,6 +19,7 @@
   -webkit-transition: opacity 0.3s ease-in-out;
   -o-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
+  overflow: visible;
 }
 
 .popup_active {
@@ -36,18 +37,13 @@
   -webkit-transition: 0.3s ease-in-out;
   -o-transition: 0.3s ease-in-out;
   transition: 0.3s ease-in-out;
+  overflow: visible;
 }
 
 .popup__close-button_type_image {
   width: 40px;
   height: 40px;
 }
-
-.popup__close-button_type_image .popup__close-button-icon {
-  width: 32px;
-  height: 32px;
-}
-
 
 .popup__close-button-icon {
     rotate: 45deg;
@@ -56,6 +52,12 @@
     transition: 0.3s ease-in-out;
     pointer-events: none;
 }
+
+.popup__close-button_type_image .popup__close-button-icon {
+  width: 32px;
+  height: 32px;
+}
+
 
 .popup__close-button:hover .popup__close-button-icon {
     rotate: 225deg;
