@@ -90,30 +90,6 @@
       </footer>
     </div>
 
-    <!-- Card Template -->
-    <template id="card-template">
-      <div class="card">
-        <img src="" alt="" class="card__image" />
-        <button class="card__trash-button">
-          <svg width="19" height="20" class="card__trash-button-icon">
-            <use href="./images/icons.svg#icon-trash"></use>
-          </svg>
-        </button>
-        <div class="card__info">
-          <h2 class="card__title"></h2>
-          <button class="card__like-button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="card__like-button-icon"
-              viewBox="0 0 22 20"
-            >
-              <use href="./images/icons.svg#icon-heart"></use>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </template>
-
     <!-- Profile Popup -->
     <div class="popup" id="profile">
       <button class="popup__close-button" id="profile-close-button">
@@ -180,26 +156,30 @@
         <h2 class="popup__title">Novo local</h2>
         <form name="newCard" class="popup__form" id="new-card-form" novalidate>
           <fieldset class="popup__fieldset">
-            <input
-              type="text"
-              name="title"
-              id="add-card-title"
-              class="popup__input"
-              placeholder="Título"
-              minlength="2"
-              maxlength="30"
-              required
-            />
-            <span class="popup__error"></span>
-            <input
-              type="url"
-              name="link"
-              id="add-card-link"
-              class="popup__input"
-              placeholder="Link da imagem"
-              required
-            />
-            <span class="popup__error"></span>
+            <label for="add-card-title" class="popup__label">
+              <input
+                type="text"
+                name="title"
+                id="add-card-title"
+                class="popup__input"
+                placeholder="Título"
+                minlength="2"
+                maxlength="30"
+                required
+              />
+              <span class="popup__error"></span>
+            </label>
+            <label for="add-card-title" class="popup__label">
+              <input
+                type="url"
+                name="link"
+                id="add-card-link"
+                class="popup__input"
+                placeholder="Link da imagem"
+                required
+              />
+              <span class="popup__error"></span>
+            </label>
           </fieldset>
           <button
             type="submit"
@@ -211,6 +191,30 @@
         </form>
       </div>
     </div>
+
+    <!-- Card Template -->
+    <template id="card-template">
+      <div class="card">
+        <img src="" alt="" class="card__image" />
+        <button class="card__trash-button">
+          <svg width="19" height="20" class="card__trash-button-icon">
+            <use href="./images/icons.svg#icon-trash"></use>
+          </svg>
+        </button>
+        <div class="card__info">
+          <h2 class="card__title"></h2>
+          <button class="card__like-button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="card__like-button-icon"
+              viewBox="0 0 22 20"
+            >
+              <use href="./images/icons.svg#icon-heart"></use>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </template>
 
     <!-- Image Popup -->
     <div class="popup" id="image-popup">
