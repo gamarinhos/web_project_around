@@ -1,5 +1,5 @@
-import { FormPopup } from './FormValidator.js';
-import Card from './Card.js';
+import { FormPopup } from '../components/FormValidator.js';
+import Card from '../components/Card.js';
 
 //// Popup form that update profile info ////
 (function profilePopup() {
