@@ -14,14 +14,12 @@ export default class Section {
   }
 
   render() {
-    this.clear();
-
     this._items.forEach((item) => {
       this._render(item);
     });
   }
 
-  clear() {
-    this._container.innerHTML = '';
+  addItem(element) {
+    this._container.append(element);
   }
 }
