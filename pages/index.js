@@ -1,5 +1,11 @@
-import { FormPopup } from '../components/FormValidator.js';
-import Card from '../components/Card.js';
+import {
+  Popup,
+  PopupWithImage,
+  PopupWithForm,
+  Card,
+  Section,
+  FormValidator,
+} from '../components/index.js';
 
 //// Popup form that update profile info ////
 (function profilePopup() {
@@ -23,8 +29,8 @@ import Card from '../components/Card.js';
 
   openButton.addEventListener('click', () => {
     fillProfileFormInputs();
-    profileForm.hasInvalidInput();
-    profileForm.toggleButtonState();
+    profileForm._hasInvalidInput();
+    profileForm._toggleButtonState();
     profileForm.openPopup();
   });
 
@@ -37,7 +43,7 @@ import Card from '../components/Card.js';
   profileForm.form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    if (profileForm.hasInvalidInput()) {
+    if (profileForm._hasInvalidInput()) {
       return; // stop execution
     }
 
@@ -53,38 +59,6 @@ import Card from '../components/Card.js';
 
 //// Popup form that add cards ////
 (function newCardPopup() {
-  const newCardForm = new FormPopup({
-    form: document.forms.newCard,
-  });
-  newCardForm.enableValidation();
-
-  const openButton = document.querySelector('.profile__add-button');
-  openButton.addEventListener('click', () => newCardForm.openPopup());
-
-  newCardForm.form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    if (newCardForm.hasInvalidInput()) {
-      return; // stop execution
-    }
-
-    const values = {
-      title: newCardForm.inputs.title.value,
-      link: newCardForm.inputs.link.value,
-    };
-
-    addNewCard(values);
-    newCardForm.closePopup();
-    newCardForm.form.reset();
-  });
-
-  const cardSection = document.querySelector('.content__section-cards');
-
-  function addNewCard(data = { title, link, alt }) /* Object hint */ {
-    const card = new Card(data);
-    cardSection.append(card.getCardElement('#card-template'));
-  }
-
   //// Page initial cards ////
   const initialCards = [
     {
@@ -124,5 +98,45 @@ import Card from '../components/Card.js';
     },
   ];
 
-  initialCards.forEach(addNewCard);
+  const cardSection = new Section('.content__section-cards', {
+    data: initialCards,
+    renderer(data) {
+      const card = new Card(data);
+      const cardElement = card.getCardElement('#card-template');
+      this.setItem(cardElement);
+    },
+  });
+
+  cardSection.renderer();
+
+  const newCardForm = new FormPopup({
+    form: document.forms.newCard,
+  });
+
+  newCardForm.enableValidation();
+
+  const openButton = document.querySelector('.profile__add-button');
+  openButton.addEventListener('click', () => newCardForm.openPopup());
+
+  newCardForm.form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (newCardForm._hasInvalidInput()) {
+      return; // stop execution
+    }
+
+    const values = {
+      title: newCardForm.inputs.title.value,
+      link: newCardForm.inputs.link.value,
+    };
+
+    addNewCard(values);
+    newCardForm.closePopup();
+    newCardForm.form.reset();
+  });
+
+  function addNewCard(data = { title, link, alt }) /* Object hint */ {
+    const card = new Card(data);
+    cardSection.append(card.getCardElement('#card-template'));
+  }
 })();
