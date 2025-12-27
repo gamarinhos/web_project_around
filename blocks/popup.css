@@ -1,4 +1,11 @@
 /*
+* Utilize navegadores baseados em Chromium para desfrutar da
+* compatibilidade com a propriedade 'position-anchor'.
+* 
+* Navegadores que não possuem a compatibilidade não terão problemas
+* para fechar o popup clicando no overlay, apenas não verão o 'X',
+* apenas uma limitação de UX (experiência do usuário).
+* 
 * Autoprefixer: v10.4.7
 */
 
