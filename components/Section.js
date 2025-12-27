@@ -1,4 +1,4 @@
-export default class Section {
+export class Section {
   constructor(containerSelector, { data, renderer } = {}) {
     this._container = document.querySelector(containerSelector);
     this._items = data;
@@ -13,7 +13,7 @@ export default class Section {
     }
   }
 
-  render() {
+  renderer() {
     this._items.forEach((item) => {
       this._render(item);
     });
