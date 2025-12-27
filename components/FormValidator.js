@@ -1,29 +1,36 @@
-class FormValidator {
-  constructor({ form }) {
+export class FormValidator {
+  constructor({ form, submitter }) {
     this._form = form;
     this._submitButton = this._form.querySelector('button[type="submit"]');
-    this._inputs = Array.from(this._form.querySelectorAll('input')).reduce(
-      (obj, input) => {
-        obj[input.name] = input;
-        return obj;
-      },
-      {}
-    );
+    this._inputs = this._getFormInputs();
+
+    this._formSubmission = submitter;
   }
 
-  get form() {
-    return this._form;
-  }
+  _getFormInputs() {
+    const inputs = Array.from(this._form.querySelectorAll('input'));
 
-  get inputs() {
-    return this._inputs;
+    return inputs.reduce((obj, input) => {
+      obj[input.name] = input;
+      return obj;
+    }, {});
   }
 
   //// Form validation
   enableValidation() {
     this._form.addEventListener('input', (event) => {
       this._inputValidation(event.target);
-      this.toggleButtonState();
+      this._toggleButtonState();
+    });
+
+    this._form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      if (profileForm.hasInvalidInput()) {
+        return; // stop execution
+      }
+
+      this._formSubmission();
     });
   }
 
@@ -39,85 +46,40 @@ class FormValidator {
     return isInvalid;
   }
 
+  _getElementClass(element) {
+    return element.classList[0];
+  }
+
   _showInputError(input) {
+    const inputClass = this._getElementClass(input);
+    input.classList.add(`${inputClass}_status_invalid`);
+
     const errorElement = input.nextElementSibling;
-    input.classList.add('popup__input_status_invalid');
     errorElement.textContent = input.validationMessage;
   }
 
   _hideInputError(input) {
+    const inputClass = this._getElementClass(input);
+    input.classList.remove(`${inputClass}_status_invalid`);
+
     const errorElement = input.nextElementSibling;
-    input.classList.remove('popup__input_status_invalid');
     errorElement.textContent = '';
   }
 
-  toggleButtonState() {
-    if (this.hasInvalidInput()) {
-      this._submitButton.classList.add('popup__submit_disabled');
+  _toggleButtonState() {
+    const buttonClass = this._getElementClass(this._submitButton);
+    if (this._hasInvalidInput()) {
+      this._submitButton.classList.add(`${buttonClass}_disabled`);
       return;
     }
     // else
-    this._submitButton.classList.remove('popup__submit_disabled');
+    this._submitButton.classList.remove(`${buttonClass}_disabled`);
   }
 
-  hasInvalidInput() {
+  _hasInvalidInput() {
     const res = Object.values(this._inputs).some((input) => {
       return this._inputValidation(input);
     });
     return res;
   }
 }
-
-/* Me peguei repetindo os métodos a seguir para os popups e,
- * para não ter que declará-los no FormValidator, extendi a classe.
- * Assim posso obter os métodos de manipulação do popup sem comprometer
- * a lógica principal do validador de formulário.
- *
- * ainda é o FormValidator... com alguns adicionais que achei necessários :)
- */
-class FormPopup extends FormValidator {
-  constructor(data = {}) {
-    super(data);
-    this._popup = this._form.closest('.popup');
-    this._container = this._popup.querySelector('.popup__container');
-
-    this._bindMethods('closePopup', '_handleEscapeKey');
-  }
-
-  _bindMethods(...methods) {
-    methods.forEach((method) => {
-      this[method] = this[method].bind(this);
-    });
-    /* Sei que ainda não vimos isso nessa sprint,
-     * mas, como decidi adicionar os métodos de manipulação do popup, precisei usar.
-     */
-  }
-
-  openPopup() {
-    this._popup.classList.add('popup_active');
-
-    this._container.addEventListener('click', this._handleContainerClick);
-    this._popup.addEventListener('click', this.closePopup);
-    document.addEventListener('keydown', this._handleEscapeKey);
-  }
-
-  closePopup() {
-    this._popup.classList.remove('popup_active');
-
-    this._container.removeEventListener('click', this._handleContainerClick);
-    this._popup.removeEventListener('click', this.closePopup);
-    document.removeEventListener('keydown', this._handleEscapeKey);
-  }
-
-  _handleContainerClick(e) {
-    e.stopPropagation();
-  }
-
-  _handleEscapeKey(event) {
-    if (event.key === 'Escape') {
-      this.closePopup();
-    }
-  }
-}
-
-export { FormValidator, FormPopup };
