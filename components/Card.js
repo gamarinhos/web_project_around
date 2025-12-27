@@ -1,17 +1,10 @@
-export default class Card {
-  constructor({ title, link, alt = title }) {
+export class Card {
+  constructor({ title, link, alt = title }, { imageClickHandler }) {
     this._title = title;
     this._link = link;
     this._alt = alt;
     this._isLiked = false;
-
-    this._bindMethods('_closeImagePopup', '_handleEscapeKey');
-  }
-
-  _bindMethods(...methods) {
-    methods.forEach((method) => {
-      this[method] = this[method].bind(this);
-    });
+    this._handleImageClick = imageClickHandler;
   }
 
   getCardElement(templateSelector) {
@@ -19,52 +12,39 @@ export default class Card {
       .querySelector(templateSelector)
       ?.content.firstElementChild.cloneNode(true);
 
-    if (this._card) {
-      // Works for templates with different block name:
-      this._cardSelector = this._card.className;
-      this._cardTitle = this._card.querySelector(
-        `.${this._cardSelector}__title`
-      );
-      this._cardImage = this._card.querySelector(
-        `.${this._cardSelector}__image`
-      );
+    // Works for templates with different block name:
+    this._cardSelector = this._card.classList[0];
+    this._cardTitle = this._card.querySelector(`.${this._cardSelector}__title`);
+    this._cardImage = this._card.querySelector(`.${this._cardSelector}__image`);
 
-      this._cardTitle.textContent = this._title;
-      this._cardTitle.title = this._title;
-      this._cardImage.src = this._link;
-      this._cardImage.alt = this._alt;
+    this._cardTitle.textContent = this._title;
+    this._cardTitle.title = this._title;
+    this._cardImage.src = this._link;
+    this._cardImage.alt = this._alt;
 
-      this._getPopupElement();
+    this._setCardEvents();
 
-      this._setCardEvents();
-
-      return this._card;
-    }
-  }
-
-  _getPopupElement() {
-    this._imagePopup = document.querySelector('#image-popup');
-    Object.assign(this._imagePopup, {
-      image: this._imagePopup.querySelector('.popup__image'),
-      imageTitle: this._imagePopup.querySelector('.popup__title'),
-    });
+    return this._card;
   }
 
   _setCardEvents() {
-    this._card.addEventListener('click', (event) => {
-      const el = event.target;
-      const hasClass = (name) => el.classList.contains(name);
+    this._cardLikeButton = this._card.querySelector(`.${this._cardSelector}__like-button`);
+    this._cardTrashButton = this._card.querySelector(`.${this._cardSelector}__trash-button`);
 
-      if (hasClass('card__image')) {
-        this._openImagePopup();
+    this._card.addEventListener('click', (event) => {
+      const target = event.target;
+      const targetIs = (element) => target === element;
+
+      if (targetIs(this._cardImage)) {
+        this._handleImageClick();
       }
 
-      if (hasClass('card__like-button')) {
-        el.classList.toggle('card__like-button_active');
+      if (targetIs(this._cardLikeButton)) {
+        target.classList.toggle('card__like-button_active');
         this._isLiked = !this._isLiked;
       }
 
-      if (hasClass('card__trash-button')) {
+      if (targetIs(this._cardTrashButton)) {
         this._card.remove();
       }
     });
@@ -72,29 +52,5 @@ export default class Card {
     this._cardImage.addEventListener('error', (event) => {
       event.target.src = '../images/image-error.png';
     });
-  }
-
-  _openImagePopup() {
-    this._imagePopup.image.src = this._cardImage.src;
-    this._imagePopup.imageTitle.textContent = this._title;
-    this._imagePopup.classList.add('popup_active');
-
-    this._imagePopup.addEventListener('click', this._closeImagePopup);
-    document.addEventListener('keydown', this._handleEscapeKey);
-  }
-
-  _closeImagePopup() {
-    this._imagePopup.image.src = '';
-    this._imagePopup.imageTitle.textContent = '';
-    this._imagePopup.classList.remove('popup_active');
-
-    this._imagePopup.removeEventListener('click', this._closeImagePopup);
-    document.removeEventListener('keydown', this._handleEscapeKey);
-  }
-
-  _handleEscapeKey(event) {
-    if (event.key === 'Escape') {
-      this._closeImagePopup();
-    }
   }
 }
