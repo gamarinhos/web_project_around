@@ -1,10 +1,19 @@
 export class Card {
-  constructor({ title, link, alt = title }, { imageClickHandler }) {
+  constructor({ title, link, alt = title, cardClickHandler }) {
     this._title = title;
     this._link = link;
     this._alt = alt;
     this._isLiked = false;
-    this._handleImageClick = imageClickHandler;
+    this._handleCardClick = cardClickHandler;
+  }
+
+  getCardInfo() {
+    return {
+      title: this._title,
+      link: this._link,
+      alt: this._alt,
+      isLiked: this._isLiked,
+    };
   }
 
   getCardElement(templateSelector) {
@@ -12,7 +21,6 @@ export class Card {
       .querySelector(templateSelector)
       ?.content.firstElementChild.cloneNode(true);
 
-    // Works for templates with different block name:
     this._cardSelector = this._card.classList[0];
     this._cardTitle = this._card.querySelector(`.${this._cardSelector}__title`);
     this._cardImage = this._card.querySelector(`.${this._cardSelector}__image`);
@@ -35,17 +43,20 @@ export class Card {
       const target = event.target;
       const targetIs = (element) => target === element;
 
-      if (targetIs(this._cardImage)) {
-        this._handleImageClick();
+      if (targetIs(this._cardImage) && this._handleCardClick) {
+        this._handleCardClick(this.getCardInfo());
+        return;
       }
 
       if (targetIs(this._cardLikeButton)) {
         target.classList.toggle('card__like-button_active');
         this._isLiked = !this._isLiked;
+        return;
       }
 
       if (targetIs(this._cardTrashButton)) {
         this._card.remove();
+        return;
       }
     });
 
