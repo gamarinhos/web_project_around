@@ -1,12 +1,16 @@
 export class Popup {
   constructor(selector) {
     this._popup = document.querySelector(selector);
-    this._closeButton = this._popup.querySelector(`.${this._class}__close-button`);
     this._class = this._popup.classList[0];
+    this._closeButton = this._popup.querySelector(`.${this._class}__close-button`);
 
-    this._bindMethods('_handleOverlayClick', '_handleEscapeKey');
+    this._bindMethods('_handleClickClose', '_handleEscClose');
   }
 
+  /**Sei que ainda não vimos isso nessa sprint, mas decidi
+   * usar bind para poder remover o manipulador quando o
+   * modal é fechado, mantendo o contexto lexico de 'this'.
+   */
   _bindMethods(...methods) {
     methods.forEach((method) => {
       this[method] = this[method].bind(this);
@@ -14,7 +18,7 @@ export class Popup {
   }
 
   open() {
-    this._popup.clasList.add(`${this._class}_active`);
+    this._popup.classList.add(`${this._class}_active`);
     this._popup.addEventListener('click', this._handleClickClose);
     document.addEventListener('keydown', this._handleEscClose);
   }
@@ -26,9 +30,10 @@ export class Popup {
   }
 
   _handleClickClose(event) {
-    const isOverlay = event.target === this._popup || event.target === this._closeButton;
+    const isOverlay = event.target === this._popup;
+    const isCloseButton = event.target === this._closeButton;
 
-    if (isOverlay) {
+    if (isOverlay || isCloseButton) {
       this.close();
     }
   }
