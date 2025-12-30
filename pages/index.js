@@ -34,9 +34,12 @@ import { selectors, initialCards } from '../utils/constants.js';
   });
 
   function addNewCard(data) {
-    data.cardClickHandler = ({ title, link }) => imagePopup.open(title, link);
+    const cardData = {
+      ...data,
+      cardClickHandler: ({ title, link }) => imagePopup.open(title, link),
+    };
 
-    const card = new Card(data);
+    const card = new Card(cardData);
     const cardElement = card.getCardElement(selectors.templates.card);
     cardSection.addItem(cardElement);
   }
@@ -49,11 +52,7 @@ import { selectors, initialCards } from '../utils/constants.js';
     form: document.forms.newCard,
     submitter() {
       const cardValues = newCardForm.getInputsValues();
-      cardValues.cardClickHandler = ({ title, link }) => imagePopup.open(title, link);
-      const card = new Card(cardValues);
-      const cardElement = card.getCardElement(selectors.templates.card);
-      cardSection.addItem(cardElement);
-
+      addNewCard(cardValues);
       newCardPopup.close();
     },
   });
