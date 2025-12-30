@@ -1,7 +1,7 @@
 export class Section {
   constructor(containerSelector, { data, renderer } = {}) {
     this._container = document.querySelector(containerSelector);
-    this._items = data;
+    this._items = data || [];
     this._render = renderer;
 
     this._validateItems();
@@ -20,6 +20,8 @@ export class Section {
   }
 
   addItem(element) {
-    this._container.append(element);
+    if (this._container) {
+      this._container.append(element);
+    }
   }
 }
