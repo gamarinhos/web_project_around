@@ -61,7 +61,9 @@ export class Card {
     });
 
     this._cardImage.addEventListener('error', (event) => {
-      event.target.src = '../images/image-error.png';
+      const errorPath = '../images/image-error.png';
+      event.target.src = errorPath;
+      this._link = errorPath;
     });
   }
 }
