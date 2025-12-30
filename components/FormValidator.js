@@ -3,8 +3,12 @@ export class FormValidator {
     this._form = form;
     this._submitButton = this._form.querySelector('button[type="submit"]');
     this._inputs = this._getFormInputs();
-
     this._formSubmission = submitter;
+
+    /* A validação é literalmente o propósito da classe, por isso,
+     * decidi que faz mais sentido já habilitá-la no constructor.
+     */
+    this._enableValidation();
   }
 
   _getFormInputs() {
@@ -16,21 +20,35 @@ export class FormValidator {
     }, {});
   }
 
+  getInputsValues() {
+    return Object.keys(this._inputs).reduce((obj, name) => {
+      obj[name] = this._inputs[name].value;
+      return obj;
+    }, {});
+  }
+
+  prefillInputs(data) {
+    Object.keys(this._inputs).forEach((key) => {
+      this._inputs[key].value = data[key];
+    });
+  }
+
   //// Form validation
-  enableValidation() {
+  _enableValidation() {
     this._form.addEventListener('input', (event) => {
       this._inputValidation(event.target);
-      this._toggleButtonState();
+      this.toggleButtonState();
     });
 
     this._form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      if (profileForm.hasInvalidInput()) {
+      if (this._hasInvalidInput()) {
         return; // stop execution
       }
 
       this._formSubmission();
+      this._form.reset();
     });
   }
 
@@ -66,7 +84,7 @@ export class FormValidator {
     errorElement.textContent = '';
   }
 
-  _toggleButtonState() {
+  toggleButtonState() {
     const buttonClass = this._getElementClass(this._submitButton);
     if (this._hasInvalidInput()) {
       this._submitButton.classList.add(`${buttonClass}_disabled`);
