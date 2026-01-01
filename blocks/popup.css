@@ -1,12 +1,4 @@
-/*
-* Utilize navegadores baseados em Chromium para desfrutar da
-* compatibilidade com a propriedade 'position-anchor'.
-* 
-* Navegadores que não possuem a compatibilidade não terão problemas
-* para fechar o popup clicando no overlay, apenas não verão o 'X',
-* apenas uma limitação de UX (experiência do usuário).
-* 
-* Autoprefixer: v10.4.7
+/* Autoprefixer: v10.4.7
 */
 
 .popup {
@@ -16,9 +8,15 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
-  -ms-flex-line-pack: center;
-      align-content: center;
-  justify-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+     -ms-flex-pack: center;
+   justify-content: center;
+  -webkit-box-align: center;
+     -ms-flex-align: center;
+        align-items: center;
   padding: 0 16px;
   z-index: 1;
   visibility: hidden;
@@ -36,11 +34,11 @@
 
 .popup__close-button {
   position: absolute;
+  top: -32px;
+  right: -32px;
   background-color: transparent;
   border: none;
   cursor: pointer;
-  position-anchor: --popup;
-  position-area: top right;
   -webkit-transition: 0.3s ease-in-out;
   -o-transition: 0.3s ease-in-out;
   transition: 0.3s ease-in-out;
@@ -48,11 +46,13 @@
 }
 
 .popup__close-button_type_image {
-  width: 40px;
-  height: 40px;
+  top: -40px;
+  right: -40px;
 }
 
 .popup__close-button-icon {
+  width: 24px;
+  height: 24px;
     rotate: 45deg;
     -webkit-transition: 0.3s ease-in-out;
     -o-transition: 0.3s ease-in-out;
@@ -92,7 +92,6 @@
   padding: 34px 36px 37px;
   gap: 54px;
   position: relative;
-  anchor-name: --popup;
 }
 
 .popup__container_type_image {
@@ -135,19 +134,20 @@
 }
 
 @media (max-width: 500px) {
-    .popup__close-button {
-        -webkit-transform: translate(-22px, -12px);
-            -ms-transform: translate(-22px, -12px);
-                transform: translate(-22px, -12px);
-    }
+  .popup__close-button {
+    -webkit-transform: translate(-28px, -12px);
+        -ms-transform: translate(-28px, -12px);
+            transform: translate(-28px, -12px);
+}
 
-    .popup__close-button_type_image {
-      width: 24px;
-      height: 24px;
-    }
+  .popup__close-button_type_image {
+    -webkit-transform: translateX(-30px);
+        -ms-transform: translateX(-30px);
+            transform: translateX(-30px);
+  }
 
-    .popup__close-button_type_image .popup__close-button-icon {
-      width: 16px;
-      height: 16px;
-    }
+  .popup__close-button_type_image .popup__close-button-icon {
+    width: 16px;
+    height: 16px;
+  }
 }
