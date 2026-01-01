@@ -5,9 +5,6 @@ export class FormValidator {
     this._inputs = this._getFormInputs();
     this._formSubmission = submitter;
 
-    /* A validação é literalmente o propósito da classe, por isso,
-     * decidi que faz mais sentido já habilitá-la no constructor.
-     */
     this._enableValidation();
   }
 

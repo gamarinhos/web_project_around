@@ -7,8 +7,7 @@ export class Popup {
     this._bindMethods('_handleClickClose', '_handleEscClose');
   }
 
-  /**Sei que ainda não vimos isso nessa sprint, mas decidi
-   * usar bind para poder remover o manipulador quando o
+  /** Bind está sendo usado para poder remover o manipulador quando o
    * modal é fechado, mantendo o contexto lexico de 'this'.
    */
   _bindMethods(...methods) {
