@@ -1,28 +1,11 @@
-//**IMPORTANTE!
-//
-// 1. Utilize um navegador baseado em Chromium para
-// visualizar o botão de fechamento do popup. Caso
-// contrário, isso não impede o fechamento do popup
-// ao clicar no overlay ou precionando 'Esc', mas
-// apenas a visualização do "X".
-//
-// 2. Não entendi como eu deveria usar o 'PopupWithForm'
-// nem para quê ele serviria já que 'index.js' é quem
-// orquestra a relação entre as classes. Fiz com que o
-// submitter do 'FormValidator' ficasse responsável por
-// fechar o popup após o envio do forumlário.
-// */
-
-import {
-  Popup,
-  PopupWithImage,
-  Card,
-  Section,
-  FormValidator,
-  UserInfo,
-} from '../components/index.js';
-
 import { selectors, initialCards } from '../utils/constants.js';
+
+import { Popup } from '../components/Popup.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
+import { Card } from '../components/Card.js';
+import { Section } from '../components/Section.js';
+import { FormValidator } from '../components/FormValidator.js';
+import { UserInfo } from '../components/UserInfo.js';
 
 //// Popup form that add cards ////
 (function cards() {
@@ -65,7 +48,7 @@ import { selectors, initialCards } from '../utils/constants.js';
 })();
 
 //// Popup form that update profile info ////
-(function profilePopup() {
+(function profile() {
   const profilePopup = new Popup(selectors.popups.profile);
 
   const profileInfo = new UserInfo({
