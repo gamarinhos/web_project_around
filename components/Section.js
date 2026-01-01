@@ -21,7 +21,7 @@ export class Section {
 
   addItem(element) {
     if (this._container) {
-      this._container.append(element);
+      this._container.prepend(element);
     }
   }
 }
