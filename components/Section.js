@@ -1,7 +1,7 @@
 export class Section {
-  constructor(containerSelector, { data, renderer } = {}) {
+  constructor(containerSelector, { data = [], renderer = () => {} } = {}) {
     this._container = document.querySelector(containerSelector);
-    this._items = data || [];
+    this._items = data;
     this._render = renderer;
 
     this._validateItems();

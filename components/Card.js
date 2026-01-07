@@ -1,5 +1,5 @@
 export class Card {
-  constructor({ title, link, alt = title, cardClickHandler }) {
+  constructor({ title, link, alt = title, cardClickHandler = () => {} } = {}) {
     this._title = title;
     this._link = link;
     this._alt = alt;
@@ -65,5 +65,11 @@ export class Card {
       event.target.src = errorPath;
       this._link = errorPath;
     });
+  }
+
+  _handleImageError(event, errorPath) {
+    const error = errorPath || '../images/image-error.png';
+    event.target.src = error;
+    this._link = error;
   }
 }
