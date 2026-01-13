@@ -1,4 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg"  style="display: none;">
+<!-- 
+  SVG Sprite de Ícones
+
+  Este arquivo utiliza a abordagem moderna de sprites SVG para reunir ícones reutilizáveis,
+  otimizando o carregamento e a consistência visual do projeto.
+
+  Nota: Atualmente, a implementação via <use> pode apresentar instabilidades devido a limitações do
+  validador automático a partir da Sprint 11. Este arquivo foi mantido para facilitar futuras ativações
+  quando o bug for corrigido.
+
+  Como usar:
+    - Para adicionar um novo ícone, inclua um novo <symbol id=""> com <path> no bloco <svg>.
+    - Para usar um ícone, utilize <svg><use href="./images/icons.svg#icon-id"></use></svg>.
+-->
+  <svg xmlns="http://www.w3.org/2000/svg"  style="display: none;">
 
   <symbol id="icon-edit" viewBox="0 0 10 10">
     <path
