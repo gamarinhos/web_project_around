@@ -60,6 +60,7 @@
   width: 21px;
   height: 19px;
   background-color: transparent;
+  background-image: url("../images/heart-stroke-icon.svg");
   border: none;
   cursor: pointer;
   overflow: visible;
@@ -69,14 +70,14 @@
   opacity: 0.5;
 }
 
-.card__like-button-icon {
+/* .card__like-button-icon {
   width: 21px;
   height: 19px;
   fill: none;
   stroke: #000;
   pointer-events: none;
-}
+} */
 
-.card__like-button_active .card__like-button-icon {
-  fill: #000;
+.card__like-button_active {
+  background-image: url("../images/heart-fill-icon.svg");
 }
