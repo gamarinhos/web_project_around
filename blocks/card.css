@@ -61,6 +61,7 @@
   height: 19px;
   background-color: transparent;
   background-image: url("../images/heart-stroke-icon.svg");
+  background-repeat: no-repeat;
   border: none;
   cursor: pointer;
   overflow: visible;
