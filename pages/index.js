@@ -69,3 +69,10 @@ import { UserInfo } from '../components/UserInfo.js';
     profilePopup.open();
   });
 })();
+
+(function updateFooterYear() {
+  const yearElement = document.querySelector('#year');
+  const currentYear = new Date().getFullYear();
+  
+  yearElement.textContent = currentYear + ".";
+})();
