@@ -12,12 +12,44 @@
   padding-right: 20px;
 }
 
-.profile__avatar {
+.profile__avatar-button {
+  position: relative;
+  background-color: transparent;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.profile__avatar-image {
   width: 120px;
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
+  transition: 0.3s ease;
+}
+
+.profile__avatar-button:hover .profile__avatar-image {
+  filter: brightness(0.3);
+  background-image: url("../images/edit-icon.svg");
+  background-position: center center;
+}
+
+.profile__avatar-icon {
+  width: 24px;
+  height: 24px;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  transition: 0.3s ease;
+}
+
+.profile__avatar-button:hover .profile__avatar-icon {
+  opacity: 1;
 }
 
 .profile__info {
@@ -71,7 +103,7 @@
   font-weight: 400;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;  
+  overflow: hidden;
 }
 
 .profile__add-button {
@@ -102,7 +134,7 @@
     padding-right: 0;
   }
 
-  
+
   .profile__add-button {
     width: 100%;
   }
@@ -118,7 +150,7 @@
     align-items: center;
     width: 100%;
   }
-  
+
   .profile__info {
     max-width: 100%;
     text-align: center;
@@ -136,7 +168,7 @@
     text-align: center;
     font-size: 22px;
   }
-  
+
   .profile__about {
     font-size: 16px;
   }
