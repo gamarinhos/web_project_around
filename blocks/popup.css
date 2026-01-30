@@ -133,6 +133,28 @@
   overflow: visible;
 }
 
+.popup__action-button {
+  width: 100%;
+  height: 50px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  -webkit-transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+  -o-transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+  transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+  cursor: pointer;
+}
+
+.popup__action-button:hover {
+  opacity: 0.8;
+}
+
+.popup__action-button:focus-visible {
+  outline: 1px solid #000;
+  outline-offset: 2px;
+}
+
 @media (max-width: 500px) {
   .popup__close-button {
     -webkit-transform: translate(-28px, -12px);
