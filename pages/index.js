@@ -1,11 +1,9 @@
 import { selectors, initialCards } from '../utils/constants.js';
 
-import { Popup } from '../components/Popup.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
-import { FormValidator } from '../components/FormValidator.js';
 import { UserInfo } from '../components/UserInfo.js';
 
 //// Popup form that add cards ////
@@ -15,7 +13,7 @@ import { UserInfo } from '../components/UserInfo.js';
   const cardSection = new Section(selectors.sections.cards, {
     data: initialCards,
     renderer: addNewCard,
-  });  
+  });
   cardSection.renderer();
 
   const newCardPopup = new PopupWithForm({
@@ -73,6 +71,6 @@ import { UserInfo } from '../components/UserInfo.js';
 (function updateFooterYear() {
   const yearElement = document.querySelector('#year');
   const currentYear = new Date().getFullYear();
-  
+
   yearElement.textContent = currentYear + ".";
 })();
