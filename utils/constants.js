@@ -1,7 +1,7 @@
 export const selectors = {
   profile: {
     name: '.profile__name',
-    job: '.profile__job',
+    about: '.profile__about',
     editButton: '.profile__edit-button',
     addButton: '.profile__add-button',
   },
@@ -17,6 +17,14 @@ export const selectors = {
     cards: '.content__section-cards',
   },
 };
+
+export const tripleten = {
+  baseURL: 'https://around-api.pt-br.tripleten-services.com/v1',
+  headers: {
+    "Authorization": "52220422-faea-4ef4-93f2-7b152248ada0",
+    "Content-Type": "application/json"
+  }
+}
 
 export const initialCards = [
   {
