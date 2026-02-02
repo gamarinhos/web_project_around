@@ -13,7 +13,7 @@ export class Api {
 
   _processResponse(response) {
     if (!response.ok) {
-      return Promise.reject(response.status);
+      return Promise.reject(`Error: ${response.status}`);
     }
 
     return response.json();
