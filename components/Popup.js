@@ -7,9 +7,6 @@ export class Popup {
     this._bindMethods('_handleClickClose', '_handleEscClose');
   }
 
-  /** Bind está sendo usado para poder remover o manipulador quando o
-   * modal é fechado, mantendo o contexto lexico de 'this'.
-   */
   _bindMethods(...methods) {
     methods.forEach((method) => {
       this[method] = this[method].bind(this);

@@ -1,18 +1,29 @@
 export class Card {
-  constructor({ title, link, alt = title, cardClickHandler = () => {} } = {}) {
-    this._title = title;
+  constructor({
+    name,
+    link,
+    _id,
+    isLiked,
+    cardClickHandler = () => { },
+    trashClickHandler = () => { },
+    likeClickHandler = () => { },
+  } = {}) {
+    this._name = name;
     this._link = link;
-    this._alt = alt;
-    this._isLiked = false;
+    this._id = _id;
+    this._isLiked = isLiked ?? false;
     this._handleCardClick = cardClickHandler;
+    this._handleTrashClick = trashClickHandler;
+    this._handleLikeClick = likeClickHandler;
   }
 
   getCardInfo() {
     return {
-      title: this._title,
+      name: this._name,
       link: this._link,
-      alt: this._alt,
+      id: this._id,
       isLiked: this._isLiked,
+      element: this._card,
     };
   }
 
@@ -22,13 +33,12 @@ export class Card {
       ?.content.firstElementChild.cloneNode(true);
 
     this._cardSelector = this._card.classList[0];
-    this._cardTitle = this._card.querySelector(`.${this._cardSelector}__title`);
-    this._cardImage = this._card.querySelector(`.${this._cardSelector}__image`);
+    this._nameElement = this._card.querySelector(`.${this._cardSelector}__title`);
+    this._imageElement = this._card.querySelector(`.${this._cardSelector}__image`);
 
-    this._cardTitle.textContent = this._title;
-    this._cardTitle.title = this._title;
-    this._cardImage.src = this._link;
-    this._cardImage.alt = this._alt;
+    this._nameElement.textContent = this._name;
+    this._nameElement.title = this._name;
+    this._imageElement.src = this._link;
 
     this._setCardEvents();
 
@@ -43,7 +53,7 @@ export class Card {
       const target = event.target;
       const targetIs = (element) => target === element;
 
-      if (targetIs(this._cardImage) && this._handleCardClick) {
+      if (targetIs(this._imageElement)) {
         this._handleCardClick(this.getCardInfo());
         return;
       }
@@ -51,16 +61,17 @@ export class Card {
       if (targetIs(this._cardLikeButton)) {
         target.classList.toggle('card__like-button_active');
         this._isLiked = !this._isLiked;
+        this._handleLikeClick(this.getCardInfo());
         return;
       }
 
       if (targetIs(this._cardTrashButton)) {
-        this._card.remove();
+        this._handleTrashClick(this.getCardInfo());
         return;
       }
     });
 
-    this._cardImage.addEventListener('error', (event) => {
+    this._imageElement.addEventListener('error', (event) => {
       const errorPath = '../images/image-error.png';
       event.target.src = errorPath;
       this._link = errorPath;

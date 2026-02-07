@@ -2,12 +2,12 @@ import { Popup } from "./Popup.js";
 import { FormValidator } from "./FormValidator.js";
 
 export class PopupWithForm extends Popup {
-  constructor({ selector, onSubmit }){
+  constructor({ selector, onSubmit }) {
     super(selector);
     this._form = new FormValidator(this._popup.querySelector('form'));
     this._inputs = this._getFormInputs();
     this._submitButton = this._popup.querySelector('button[type="submit"]');
-    this._onSubmit = onSubmit || function() {};
+    this._onSubmit = onSubmit || function () { };
 
     this._enabelFormEvents();
   }
@@ -21,9 +21,9 @@ export class PopupWithForm extends Popup {
   }
 
   getInputValues() {
-    return Object.entries(this._inputs).reduce((object, [key, input]) => {
-      object[key] = input.value
-      return object
+    return Object.entries(this._inputs).reduce((object, [name, input]) => {
+      object[name] = input.value;
+      return object;
     }, {})
   }
 
