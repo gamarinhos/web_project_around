@@ -35,6 +35,10 @@ export class Card {
     this._cardSelector = this._card.classList[0];
     this._nameElement = this._card.querySelector(`.${this._cardSelector}__title`);
     this._imageElement = this._card.querySelector(`.${this._cardSelector}__image`);
+    this._cardLikeButton = this._card.querySelector(`.${this._cardSelector}__like-button`);
+    this._cardTrashButton = this._card.querySelector(`.${this._cardSelector}__trash-button`);
+
+    if (this._isLiked) this._cardLikeButton.classList.add('card__like-button_active');
 
     this._nameElement.textContent = this._name;
     this._nameElement.title = this._name;
@@ -46,9 +50,6 @@ export class Card {
   }
 
   _setCardEvents() {
-    this._cardLikeButton = this._card.querySelector(`.${this._cardSelector}__like-button`);
-    this._cardTrashButton = this._card.querySelector(`.${this._cardSelector}__trash-button`);
-
     this._card.addEventListener('click', (event) => {
       const target = event.target;
       const targetIs = (element) => target === element;
@@ -59,9 +60,11 @@ export class Card {
       }
 
       if (targetIs(this._cardLikeButton)) {
-        target.classList.toggle('card__like-button_active');
-        this._isLiked = !this._isLiked;
-        this._handleLikeClick(this.getCardInfo());
+        this._handleLikeClick(this.getCardInfo())
+          .then(() => {
+            target.classList.toggle('card__like-button_active');
+            this._isLiked = !this._isLiked;
+          })
         return;
       }
 

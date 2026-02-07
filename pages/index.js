@@ -19,7 +19,7 @@ import { UserInfo } from '../components/UserInfo.js';
     api.getCards()
       .then((data) => {
         cardSection.render(data);
-      }) // Precisa atribuir o contexto novamente ao passar o método diretamente.
+      })
       .catch((error) => {
         console.log(error)
       });
@@ -44,6 +44,7 @@ import { UserInfo } from '../components/UserInfo.js';
       ...data,
       cardClickHandler: imagePopup.open.bind(imagePopup),
       trashClickHandler: deleteCard,
+      likeClickHandler: likeCard,
     };
     const card = new Card(cardData);
     const cardElement = card.getCardElement(selectors.templates.card);
@@ -53,6 +54,22 @@ import { UserInfo } from '../components/UserInfo.js';
   function deleteCard({ id, element }) {
     api.deleteCard(id)
       .then(() => element.remove())
+      .catch(console.log);
+  }
+
+  function likeCard({ id, isLiked }) {
+    if (!isLiked) {
+      return api.likeCard(id)
+        .then((data) => {
+
+        })
+        .catch(console.log);
+    }
+
+    return api.dislikeCard(id)
+      .then((data) => {
+
+      })
       .catch(console.log);
   }
 
