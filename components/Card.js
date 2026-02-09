@@ -80,10 +80,4 @@ export class Card {
       this._link = errorPath;
     });
   }
-
-  _handleImageError(event, errorPath) {
-    const error = errorPath || '../images/image-error.png';
-    event.target.src = error;
-    this._link = error;
-  }
 }
