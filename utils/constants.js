@@ -8,6 +8,13 @@ export const selectors = {
     editButton: '.profile__edit-button',
     addButton: '.profile__add-button',
   },
+  popups: {
+    profile: '#profile',
+    avatar: '#avatar',
+    newCard: '#new-card',
+    removeCard: '#remove-card',
+    imagePopup: '#image-popup'
+  },
   templates: {
     card: '#card-template',
   },

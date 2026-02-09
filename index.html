@@ -79,13 +79,13 @@
             <span class="form__error"></span>
           </label>
         </fieldset>
-        <button type="submit" class="form__submit" id="profile-submit">Salvar</button>
+        <button type="submit" class="form__submit">Salvar</button>
       </form>
     </div>
   </div>
 
   <!-- New Card Popup -->
-  <div class="popup" id="newCard">
+  <div class="popup" id="new-card">
     <div class="popup__container">
       <button class="popup__close-button" id="add-card-close-button">
         <img src="./images/plus-icon.svg" class="popup__close-button-icon" />
@@ -104,10 +104,53 @@
             <span class="form__error"></span>
           </label>
         </fieldset>
-        <button type="submit" class="form__submit form__submit_disabled" id="add-card-submit">
+        <button type="submit" class="form__submit form__submit_disabled">
           Criar
         </button>
       </form>
+    </div>
+  </div>
+
+  <!-- Avatar Popup -->
+  <div class="popup" id="avatar">
+    <div class="popup__container">
+      <button class="popup__close-button" id="add-card-close-button">
+        <img src="./images/plus-icon.svg" class="popup__close-button-icon" />
+      </button>
+      <h2 class="popup__title">Alterar a foto do perfil</h2>
+      <form name="newCard" class="form" id="new-card-form" novalidate>
+        <fieldset class="form__fieldset">
+          <label for="image-link" class="form__label">
+            <input type="url" name="link" id="image-link" class="form__input" placeholder="Link da imagem" required />
+            <span class="form__error"></span>
+          </label>
+        </fieldset>
+        <button type="submit" class="form__submit form__submit_disabled">
+          Salvar
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Image Popup -->
+  <div class="popup" id="image-popup">
+    <div class="popup__container popup__container_type_image">
+      <button class="popup__close-button popup__close-button_type_image" id="image-close-button">
+        <img src="./images/plus-icon.svg" class="popup__close-button-icon" />
+      </button>
+      <img src=" " alt="" class="popup__image" />
+      <h2 class="popup__title popup__title_type_image"></h2>
+    </div>
+  </div>
+
+  <!-- Remove Card Popup -->
+  <div class="popup" id="remove-card">
+    <div class="popup__container">
+      <button class="popup__close-button" id="add-card-close-button">
+        <img src="./images/plus-icon.svg" class="popup__close-button-icon" />
+      </button>
+      <h2 class="popup__title">Deseja excluir esse cartão?</h2>
+      <button class="popup__action-button">Excluir</button>
     </div>
   </div>
 
@@ -127,16 +170,7 @@
     </div>
   </template>
 
-  <!-- Image Popup -->
-  <div class="popup" id="image-popup">
-    <div class="popup__container popup__container_type_image">
-      <button class="popup__close-button popup__close-button_type_image" id="image-close-button">
-        <img src="./images/plus-icon.svg" class="popup__close-button-icon" />
-      </button>
-      <img src=" " alt="" class="popup__image" />
-      <h2 class="popup__title popup__title_type_image"></h2>
-    </div>
-  </div>
+
 
   <script type="module" src="./pages/index.js"></script>
   <script type="module" src="./utils/constants.js"></script>
