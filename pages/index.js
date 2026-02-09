@@ -1,8 +1,9 @@
-import { selectors, initialCards, tripleten } from '../utils/constants.js';
+import { selectors, tripleten } from '../utils/constants.js';
 
 import { Api } from '../components/Api.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from "../components/PopupWithForm.js";
+import { PopupWithButton } from "../components/PopupWithButton.js";
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
@@ -14,6 +15,8 @@ import { UserInfo } from '../components/UserInfo.js';
     selector: selectors.sections.cards,
     renderer: addNewCard,
   });
+
+  api.createCard({ name: 'teste', link: 'https://static.photos/nature' })
 
   function getCards() {
     api.getCards()
@@ -39,11 +42,18 @@ import { UserInfo } from '../components/UserInfo.js';
     },
   });
 
+  const removeCardPopup = new PopupWithButton({
+    selector: selectors.popups.removeCard,
+    onClick: (data) => {
+      deleteCard(data)
+    }
+  })
+
   function addNewCard(data) {
     const cardData = {
       ...data,
       cardClickHandler: imagePopup.open.bind(imagePopup),
-      trashClickHandler: deleteCard,
+      trashClickHandler: removeCardPopup.open.bind(removeCardPopup),
       likeClickHandler: likeCard,
     };
     const card = new Card(cardData);
@@ -51,9 +61,13 @@ import { UserInfo } from '../components/UserInfo.js';
     cardSection.addItem(cardElement);
   }
 
+
   function deleteCard({ id, element }) {
     api.deleteCard(id)
-      .then(() => element.remove())
+      .then(() => {
+        element.remove();
+        removeCardPopup.close();
+      })
       .catch(console.log);
   }
 
