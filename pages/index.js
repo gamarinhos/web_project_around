@@ -10,24 +10,73 @@ import { UserInfo } from '../components/UserInfo.js';
 
 (() => {
   const api = new Api(tripleten);
+
+  //// Profile behavior ////
+  const userInfo = new UserInfo({
+    name: selectors.profile.name,
+    about: selectors.profile.about,
+    avatar: selectors.profile.avatar
+  });
+
+
+  api.getUser()
+    .then((data) => {
+      userInfo.setUserInfo(data);
+      userInfo.storeUserId(data._id);
+    })
+
+
+  const profilePopup = new PopupWithForm({
+    selector: selectors.popups.profile,
+    onSubmit() {
+      const values = profilePopup.getInputValues();
+      api.editUserInfo(values)
+        .then((data) => {
+          userInfo.setUserInfo(data);
+          profilePopup.close();
+        })
+    },
+  });
+
+  const profileEditButton = document.querySelector(selectors.profile.editButton);
+  profileEditButton.addEventListener('click', () => {
+    const values = userInfo.getUserInfo();
+    profilePopup.prefillInputs(values);
+    profilePopup.toggleButtonState();
+    profilePopup.open();
+  });
+
+  const avatarPopup = new PopupWithForm({
+    selector: selectors.popups.avatar,
+    onSubmit() {
+      const value = avatarPopup.getInputValues();
+      api.editUserAvatar(value)
+        .then(() => {
+          userInfo.setUserInfo(value)
+          avatarPopup.close()
+        })
+    }
+  })
+
+  const profileAvatarButton = document.querySelector(selectors.profile.avatarButton);
+  profileAvatarButton.addEventListener('click', () => {
+    avatarPopup.open();
+  })
+
+  //// Cards behavior ////
   const imagePopup = new PopupWithImage(selectors.popups.imagePopup);
   const cardSection = new Section({
     selector: selectors.sections.cards,
     renderer: addNewCard,
   });
 
-  api.createCard({ name: 'teste', link: 'https://static.photos/nature' })
-
-  function getCards() {
-    api.getCards()
-      .then((data) => {
-        cardSection.render(data);
-      })
-      .catch((error) => {
-        console.log(error)
-      });
-  }
-  getCards();
+  api.getCards()
+    .then((data) => {
+      cardSection.render(data.reverse());
+    })
+    .catch((error) => {
+      console.log(error)
+    });
 
   const newCardPopup = new PopupWithForm({
     selector: selectors.popups.newCard,
@@ -44,14 +93,16 @@ import { UserInfo } from '../components/UserInfo.js';
 
   const removeCardPopup = new PopupWithButton({
     selector: selectors.popups.removeCard,
-    onClick: (data) => {
+    buttonAction: (data) => {
       deleteCard(data)
     }
   })
 
   function addNewCard(data) {
+    const canDelete = data.owner === userInfo.id;
     const cardData = {
       ...data,
+      canDelete,
       cardClickHandler: imagePopup.open.bind(imagePopup),
       trashClickHandler: removeCardPopup.open.bind(removeCardPopup),
       likeClickHandler: likeCard,
@@ -93,39 +144,7 @@ import { UserInfo } from '../components/UserInfo.js';
     newCardPopup.open();
   });
 
-  //// Popup form that updates profile info ////
 
-  const userInfo = new UserInfo({
-    name: document.querySelector(selectors.profile.name),
-    about: document.querySelector(selectors.profile.about),
-  });
-
-  function getUser() {
-    api.getUser()
-      .then(userInfo.setUserInfo.bind(userInfo))
-      .catch();
-  }
-  getUser();
-
-  const profilePopup = new PopupWithForm({
-    selector: selectors.popups.profile,
-    onSubmit() {
-      const values = profilePopup.getInputValues();
-      api.editUser(values)
-        .then
-      userInfo.setUserInfo(values);
-      profilePopup.close();
-    },
-  });
-
-  // Open popup event
-  const profileEditButton = document.querySelector(selectors.profile.editButton);
-  profileEditButton.addEventListener('click', () => {
-    const values = userInfo.getUserInfo();
-    profilePopup.prefillInputs(values);
-    profilePopup.toggleButtonState();
-    profilePopup.open();
-  });
 })();
 
 (function updateFooterYear() {
