@@ -33,17 +33,23 @@ export class Api {
     });
   }
 
-  editUser({ name, about, avatar }) {
+  editUserInfo({ name, about }) {
     const userURL = `${this._baseURL}/users/me`;
-    const body = {};
-    if (name !== undefined) body.name = name;
-    if (about !== undefined) body.about = about;
-    if (avatar !== undefined) body.avatar = avatar;
 
     return this._request(userURL, {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify(body)
+      body: JSON.stringify({ name, about })
+    });
+  }
+
+  editUserAvatar({ avatar }) {
+    const avatarURL = `${this._baseURL}/users/me/avatar`
+
+    return this._request(avatarURL, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({ avatar })
     });
   }
 
@@ -53,10 +59,7 @@ export class Api {
     return this._request(cardsURL, {
       method: "POST",
       headers: this._headers,
-      body: JSON.stringify({
-        name: name,
-        link: link,
-      })
+      body: JSON.stringify({ name, link })
     });
   }
 
