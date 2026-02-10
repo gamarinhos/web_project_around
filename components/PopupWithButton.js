@@ -1,9 +1,9 @@
 import { Popup } from "./Popup.js";
 
 export class PopupWithButton extends Popup {
-  constructor({ selector, onClick = () => { } }) {
+  constructor({ selector, buttonAction = () => { } }) {
     super(selector);
-    this._onClick = onClick;
+    this._buttonAction = buttonAction;
     this._actionButton = this._popup.querySelector('.popup__action-button');
   }
 
@@ -11,7 +11,7 @@ export class PopupWithButton extends Popup {
     super.open();
 
     this._actionButton.addEventListener('click', () => {
-      this._onClick(data);
+      this._buttonAction(data);
     });
   }
 
