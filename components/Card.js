@@ -4,6 +4,7 @@ export class Card {
     link,
     _id,
     isLiked,
+    canDelete,
     cardClickHandler = () => { },
     trashClickHandler = () => { },
     likeClickHandler = () => { },
@@ -12,6 +13,7 @@ export class Card {
     this._link = link;
     this._id = _id;
     this._isLiked = isLiked ?? false;
+    this._canDelete = canDelete ?? true;
     this._handleCardClick = cardClickHandler;
     this._handleTrashClick = trashClickHandler;
     this._handleLikeClick = likeClickHandler;
@@ -38,7 +40,8 @@ export class Card {
     this._cardLikeButton = this._card.querySelector(`.${this._cardSelector}__like-button`);
     this._cardTrashButton = this._card.querySelector(`.${this._cardSelector}__trash-button`);
 
-    if (this._isLiked) this._cardLikeButton.classList.add('card__like-button_active');
+    if (this._isLiked === true) this._cardLikeButton.classList.add('card__like-button_active');
+    if (this._canDelete === false) this._cardTrashButton.remove();
 
     this._nameElement.textContent = this._name;
     this._nameElement.title = this._name;
