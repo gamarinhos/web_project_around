@@ -1,53 +1,35 @@
 import { Popup } from "./Popup.js";
+import { ButtonState } from "./ButtonState.js";
 
 export class PopupWithButton extends Popup {
-  constructor({ selector, buttonAction = () => { } }) {
+  constructor({ selector, buttonClickHandler = () => { } }) {
     super(selector);
-    this._buttonAction = buttonAction;
-    this._actionButton = this._popup.querySelector('.popup__action-button');
+    this._handleButtonClick = buttonClickHandler;
+    this._button = new ButtonState({
+      element: this._popup.querySelector('.popup__action'),
+      errorClass: 'popup__action_error',
+    });
   }
 
   open(data = {}) {
     super.open();
+    this.defaultState();
 
-    this._actionButton.addEventListener('click', () => {
-      this._buttonAction(data);
+    this._button.getElement().addEventListener('click', () => {
+      this._handleButtonClick(data);
     });
   }
 
-  prefillInputs(data = {}) {
-    Object.entries(data).forEach(([name, value]) => {
-      this._inputs[name].value = value;
-    });
+  defaultState() {
+    this._button.defaultState()
   }
 
-  _getElementClass(element) {
-    return element.classList[0];
+  loadingState(text) {
+    this._button.loadingState(text)
   }
 
-  _showInputError(input) {
-    const inputClass = this._getElementClass(input);
-    input.classList.add(`${inputClass}_status_invalid`);
-
-    const errorElement = input.nextElementSibling;
-    errorElement.textContent = input.validationMessage;
+  errorState(text) {
+    this._button.errorState(text)
   }
 
-  _hideInputError(input) {
-    const inputClass = this._getElementClass(input);
-    input.classList.remove(`${inputClass}_status_invalid`);
-
-    const errorElement = input.nextElementSibling;
-    errorElement.textContent = '';
-  }
-
-  toggleButtonState() {
-    const buttonClass = this._getElementClass(this._submitButton);
-
-    if (this._form.hasInvalidInput()) {
-      this._submitButton.classList.add(`${buttonClass}_disabled`);
-      return;
-    }
-    this._submitButton.classList.remove(`${buttonClass}_disabled`);
-  }
 }
