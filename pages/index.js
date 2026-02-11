@@ -1,4 +1,4 @@
-import { selectors, tripleten } from '../utils/constants.js';
+import { selectors, tripleten, loadingTexts } from '../utils/constants.js';
 
 import { Api } from '../components/Api.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
@@ -18,22 +18,27 @@ import { UserInfo } from '../components/UserInfo.js';
     avatar: selectors.profile.avatar
   });
 
-
   api.getUser()
     .then((data) => {
       userInfo.setUserInfo(data);
       userInfo.storeUserId(data._id);
     })
+    .catch(console.log);
 
 
   const profilePopup = new PopupWithForm({
     selector: selectors.popups.profile,
     onSubmit() {
       const values = profilePopup.getInputValues();
+      profilePopup.loadingState(loadingTexts.saving);
       api.editUserInfo(values)
         .then((data) => {
           userInfo.setUserInfo(data);
           profilePopup.close();
+          profilePopup.defaultState();
+        })
+        .catch((error) => {
+          profilePopup.errorState(error);
         })
     },
   });
@@ -50,18 +55,24 @@ import { UserInfo } from '../components/UserInfo.js';
     selector: selectors.popups.avatar,
     onSubmit() {
       const value = avatarPopup.getInputValues();
+      avatarPopup.loadingState(loadingTexts.saving);
       api.editUserAvatar(value)
         .then(() => {
-          userInfo.setUserInfo(value)
-          avatarPopup.close()
+          userInfo.setUserInfo(value);
+          avatarPopup.close();
+          avatarPopup.resetForm();
+          avatarPopup.defaultState();
+        })
+        .catch((error) => {
+          avatarPopup.errorState(error);
         })
     }
-  })
+  });
 
   const profileAvatarButton = document.querySelector(selectors.profile.avatarButton);
   profileAvatarButton.addEventListener('click', () => {
     avatarPopup.open();
-  })
+  });
 
   //// Cards behavior ////
   const imagePopup = new PopupWithImage(selectors.popups.imagePopup);
@@ -82,19 +93,24 @@ import { UserInfo } from '../components/UserInfo.js';
     selector: selectors.popups.newCard,
     onSubmit() {
       const cardValues = newCardPopup.getInputValues();
+      newCardPopup.loadingState(loadingTexts.creating);
       api.createCard(cardValues)
         .then((data) => {
           addNewCard(data);
           newCardPopup.close();
+          newCardPopup.resetForm();
+          newCardPopup.defaultState();
         })
-        .catch(console.log);
+        .catch((error) => {
+          newCardPopup.errorState(error);
+        });
     },
   });
 
   const removeCardPopup = new PopupWithButton({
     selector: selectors.popups.removeCard,
-    buttonAction: (data) => {
-      deleteCard(data)
+    buttonClickHandler: (data) => {
+      deleteCard(data) // Todos os cartões compartilham a mesma função por referência
     }
   })
 
@@ -112,29 +128,27 @@ import { UserInfo } from '../components/UserInfo.js';
     cardSection.addItem(cardElement);
   }
 
-
-  function deleteCard({ id, element }) {
+  function deleteCard({ id, target }) {
+    removeCardPopup.loadingState(loadingTexts.removing);
     api.deleteCard(id)
       .then(() => {
-        element.remove();
+        target.closest('.card').remove();
         removeCardPopup.close();
+        removeCardPopup.defaultState();
       })
-      .catch(console.log);
+      .catch((error) => {
+        removeCardPopup.errorState(error);
+      });
   }
 
-  function likeCard({ id, isLiked }) {
+  function likeCard({ id, isLiked, target }) {
     if (!isLiked) {
+      // Adicionar estilos de carregamento futuramente...
       return api.likeCard(id)
-        .then((data) => {
-
-        })
         .catch(console.log);
     }
 
     return api.dislikeCard(id)
-      .then((data) => {
-
-      })
       .catch(console.log);
   }
 
@@ -143,7 +157,6 @@ import { UserInfo } from '../components/UserInfo.js';
   profileAddButton.addEventListener('click', () => {
     newCardPopup.open();
   });
-
 
 })();
 
