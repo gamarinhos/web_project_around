@@ -1,7 +1,7 @@
 export class ButtonState {
   constructor({ element, errorClass, loadingClass, disabledClass }) {
-    this.button = element;
-    this._defaultText = this.button.textContent;
+    this._button = element;
+    this._defaultText = this._button.textContent;
     this._classes = {
       disabled: disabledClass,
       loading: loadingClass,
@@ -9,12 +9,14 @@ export class ButtonState {
     }
   }
 
+  getElement() { return this._button }
+
   _removeClasses() {
-    this.button.classList.remove(...Object.values(this._classes));
+    this._button.classList.remove(...Object.values(this._classes));
   }
 
   _renderText(text) {
-    this.button.textContent = text ?? this._defaultText;
+    this._button.textContent = text ?? this._defaultText;
   }
 
   defaultState() {
@@ -25,18 +27,18 @@ export class ButtonState {
   disabledState(text) {
     this._renderText(text);
     this._removeClasses();
-    this.button.classList.add(this._classes.disabled)
+    this._button.classList.add(this._classes.disabled)
   }
 
   loadingState(text) {
     this._renderText(text);
     this._removeClasses();
-    this.button.classList.add(this._classes.loading);
+    this._button.classList.add(this._classes.loading);
   }
 
   errorState(text) {
     this._renderText(text);
     this._removeClasses();
-    this.button.classList.add(this._classes.error);
+    this._button.classList.add(this._classes.error);
   }
 }
