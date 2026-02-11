@@ -25,7 +25,6 @@ export class Card {
       link: this._link,
       id: this._id,
       isLiked: this._isLiked,
-      element: this._card,
     };
   }
 
@@ -56,14 +55,18 @@ export class Card {
     this._card.addEventListener('click', (event) => {
       const target = event.target;
       const targetIs = (element) => target === element;
+      const info = {
+        target,
+        ...this.getCardInfo(),
+      }
 
       if (targetIs(this._imageElement)) {
-        this._handleCardClick(this.getCardInfo());
+        this._handleCardClick(info);
         return;
       }
 
       if (targetIs(this._cardLikeButton)) {
-        this._handleLikeClick(this.getCardInfo())
+        this._handleLikeClick(info)
           .then(() => {
             target.classList.toggle('card__like-button_active');
             this._isLiked = !this._isLiked;
@@ -72,7 +75,7 @@ export class Card {
       }
 
       if (targetIs(this._cardTrashButton)) {
-        this._handleTrashClick(this.getCardInfo());
+        this._handleTrashClick(info);
         return;
       }
     });
