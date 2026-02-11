@@ -128,11 +128,11 @@ import { UserInfo } from '../components/UserInfo.js';
     cardSection.addItem(cardElement);
   }
 
-  function deleteCard({ id, target }) {
+  function deleteCard({ id, card }) {
     removeCardPopup.loadingState(loadingTexts.removing);
     api.deleteCard(id)
       .then(() => {
-        target.closest('.card').remove();
+        card.remove();
         removeCardPopup.close();
         removeCardPopup.defaultState();
       })
@@ -141,14 +141,13 @@ import { UserInfo } from '../components/UserInfo.js';
       });
   }
 
-  function likeCard({ id, isLiked, target }) {
-    if (!isLiked) {
-      // Adicionar estilos de carregamento futuramente...
-      return api.likeCard(id)
-        .catch(console.log);
-    }
+  function likeCard({ id, isLiked, card }) {
+    const request = isLiked ? api.dislikeCard(id) : api.likeCard(id);
 
-    return api.dislikeCard(id)
+    return request
+      .then(() => {
+        card.toggleLike();
+      })
       .catch(console.log);
   }
 

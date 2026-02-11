@@ -25,6 +25,7 @@ export class Card {
       link: this._link,
       id: this._id,
       isLiked: this._isLiked,
+      card: this,
     };
   }
 
@@ -45,37 +46,39 @@ export class Card {
     this._nameElement.textContent = this._name;
     this._nameElement.title = this._name;
     this._imageElement.src = this._link;
+    this._imageElement.alt = this._name;
 
     this._setCardEvents();
 
     return this._card;
   }
 
+  toggleLike() {
+    this._isLiked = !this._isLiked;
+    this._cardLikeButton?.classList.toggle('card__like-button_active');
+  }
+
+  remove() {
+    this._card.remove();
+  }
+
   _setCardEvents() {
     this._card.addEventListener('click', (event) => {
       const target = event.target;
       const targetIs = (element) => target === element;
-      const info = {
-        target,
-        ...this.getCardInfo(),
-      }
 
       if (targetIs(this._imageElement)) {
-        this._handleCardClick(info);
+        this._handleCardClick(this.getCardInfo());
         return;
       }
 
       if (targetIs(this._cardLikeButton)) {
-        this._handleLikeClick(info)
-          .then(() => {
-            target.classList.toggle('card__like-button_active');
-            this._isLiked = !this._isLiked;
-          })
+        this._handleLikeClick(this.getCardInfo())
         return;
       }
 
       if (targetIs(this._cardTrashButton)) {
-        this._handleTrashClick(info);
+        this._handleTrashClick(this.getCardInfo());
         return;
       }
     });
