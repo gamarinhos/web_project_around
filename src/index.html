@@ -1,0 +1,190 @@
+<!-- O validador automático exigiu que houvesse esse arquivo na pasta src/ 
+    não entendi para que serve e não consegui fazer ele funcionar estando nessa pasta.
+
+    Acredito que seja um erro então já reportei ao suporte da plataforma.
+-->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <title>Around the U.S</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Galeria de fotos de paisagens dos Estados Unidos" />
+  <meta name="author" content="Gamarinho" />
+  <meta name="keywords" content="Fotografia, paisagens, Estados Unidos, USA" />
+  <link rel="stylesheet" href="./pages/index.css" />
+  <link rel="icon" href="favicon.ico" />
+</head>
+
+<body class="body">
+  <div class="body__page">
+    <header class="header">
+      <div class="header__container">
+        <img src="./images/logo.svg" alt="Logo da página Around the U.S." class="header__logo" />
+      </div>
+    </header>
+
+    <main class="content">
+      <section>
+        <div class="profile">
+          <div class="profile__container">
+            <button class="profile__avatar-button">
+              <img src=" " alt="Foto de perfil do usuário"
+                class="profile__avatar-image profile__avatar-image_placeholder" />
+              <svg class="profile__avatar-icon">
+                <use href="./images/edit-icon.svg" fill="white" />
+              </svg>
+            </button>
+            <div class="profile__info">
+              <div class="profile__name-container">
+                <p class="profile__name profile__name_placeholder"></p>
+                <button class="profile__edit-button">
+                  <img src="./images/edit-icon.svg" class="profile__edit-button-icon" />
+                </button>
+              </div>
+              <p class="profile__about profile__about_placeholder"></p>
+            </div>
+          </div>
+          <button class="profile__add-button">
+            <img src="./images/plus-icon.svg" width="22" height="22" />
+          </button>
+        </div>
+      </section>
+
+      <section class="content__section-cards"></section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        &copy;
+        <span id="year"></span>
+        <a href="https://github.com/gamarinhos" target="_blank" rel="noopener noreferrer"
+          class="footer__author">Gamarinho</a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- Profile Popup -->
+  <div class="popup" id="profile">
+    <div class="popup__container">
+      <button class="popup__close-button" id="profile-close-button">
+        <img src="./images/plus-icon.svg" class="popup__close-button-icon" />
+      </button>
+      <h2 class="popup__title">Editar perfil</h2>
+      <form name="profile" class="form" id="profile-form" novalidate>
+        <fieldset class="form__fieldset">
+          <label for="profile-name" class="form__label">
+            <input name="name" type="text" id="profile-name" class="form__input" placeholder="Nome" minlength="2"
+              maxlength="30" required />
+            <span class="form__error"></span>
+          </label>
+          <label for="profile-about" class="form__label">
+            <input name="about" type="text" id="profile-about" class="form__input" placeholder="Sobre" minlength="2"
+              maxlength="200" required />
+            <span class="form__error"></span>
+          </label>
+        </fieldset>
+        <button type="submit" class="form__submit">Salvar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- New Card Popup -->
+  <div class="popup" id="new-card">
+    <div class="popup__container">
+      <button class="popup__close-button" id="add-card-close-button">
+        <img src="./images/plus-icon.svg" class="popup__close-button-icon" />
+      </button>
+      <h2 class="popup__title">Novo local</h2>
+      <form name="newCard" class="form" id="new-card-form" novalidate>
+        <fieldset class="form__fieldset">
+          <label for="add-card-name" class="form__label">
+            <input type="text" name="name" id="add-card-name" class="form__input" placeholder="Título" minlength="2"
+              maxlength="30" required />
+            <span class="form__error"></span>
+          </label>
+          <label for="add-card-link" class="form__label">
+            <input type="url" name="link" id="add-card-link" class="form__input" placeholder="Link da imagem"
+              required />
+            <span class="form__error"></span>
+          </label>
+        </fieldset>
+        <button type="submit" class="form__submit form__submit_disabled">
+          Criar
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Avatar Popup -->
+  <div class="popup" id="avatar">
+    <div class="popup__container">
+      <button class="popup__close-button" id="add-card-close-button">
+        <img src="./images/plus-icon.svg" class="popup__close-button-icon" />
+      </button>
+      <h2 class="popup__title">Alterar a foto do perfil</h2>
+      <form name="newCard" class="form" id="new-card-form" novalidate>
+        <fieldset class="form__fieldset">
+          <label for="image-link" class="form__label">
+            <input type="url" name="avatar" id="image-link" class="form__input" placeholder="Link da imagem" required />
+            <span class="form__error"></span>
+          </label>
+        </fieldset>
+        <button type="submit" class="form__submit form__submit_disabled">
+          Salvar
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Image Popup -->
+  <div class="popup" id="image-popup">
+    <div class="popup__container popup__container_type_image">
+      <button class="popup__close-button popup__close-button_type_image" id="image-close-button">
+        <img src="./images/plus-icon.svg" class="popup__close-button-icon" />
+      </button>
+      <img src=" " alt="" class="popup__image" />
+      <h2 class="popup__title popup__title_type_image"></h2>
+    </div>
+  </div>
+
+  <!-- Remove Card Popup -->
+  <div class="popup" id="remove-card">
+    <div class="popup__container">
+      <button class="popup__close-button" id="add-card-close-button">
+        <img src="./images/plus-icon.svg" class="popup__close-button-icon" />
+      </button>
+      <h2 class="popup__title">Deseja excluir esse cartão?</h2>
+      <button class="popup__action">Excluir</button>
+    </div>
+  </div>
+
+  <!-- Card Template -->
+  <template id="card-template">
+    <div class="card">
+      <img src="" alt="" class="card__image" />
+      <button class="card__trash-button">
+        <img src="./images/trash-icon.svg" class="card__trash-button-icon" />
+      </button>
+      <div class="card__info">
+        <h2 class="card__title"></h2>
+        <button class="card__like-button">
+          <!-- <img src="./images/heart-stroke-icon.svg" class="card__like-button-icon" /> -->
+        </button>
+      </div>
+    </div>
+  </template>
+
+
+
+  <script type="module" src="./pages/index.js"></script>
+  <script type="module" src="./utils/constants.js"></script>
+  <script type="module" src="./utils/utils.js"></script>
+  <script type="module" src="./components/Card.js"></script>
+  <script type="module" src="./components/FormValidator.js"></script>
+  <script type="module" src="./components/Section.js"></script>
+</body>
+
+</html>
