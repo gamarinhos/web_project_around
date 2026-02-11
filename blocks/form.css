@@ -121,3 +121,9 @@
 .form__submit_disabled:hover {
   opacity: 0.2;
 }
+
+.form__submit_error {
+  background-color: white;
+  color: #f00;
+  border: 1px solid #f00;
+}

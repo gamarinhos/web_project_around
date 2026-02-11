@@ -12,7 +12,22 @@ export class Api {
 
   _request(url, options) {
     return fetch(url, options)
-      .then((response) => response.ok ? response.json() : Promise.reject(`Error: ${response.status} ${response.statusText}`));
+      .then((response) => {
+        if (response.ok) return response.json();
+
+        const error = {
+          400: 'Valor inválido',
+          500: 'Falha no servidor',
+        }
+        const errorMesage = error[response.status] || 'Ocorreu um erro';
+
+        throw new Error(errorMesage);
+      })
+      .catch((error) => {
+        if (error instanceof TypeError) return Promise.reject('Falha de conexão');
+
+        return Promise.reject(error.message);
+      })
   }
 
   getUser() {

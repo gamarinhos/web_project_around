@@ -23,10 +23,16 @@ export const selectors = {
   year: '#year',
 };
 
+export const loadingTexts = {
+  saving: 'Salvando...',
+  creating: 'Criando...',
+  removing: 'Excluindo...',
+}
+
 export const tripleten = {
   baseURL: 'https://around-api.pt-br.tripleten-services.com/v1',
   headers: {
     "Authorization": "f6ffa353-56af-4238-a1f9-6798572125f1",
     "Content-Type": "application/json"
   }
-}
+};
