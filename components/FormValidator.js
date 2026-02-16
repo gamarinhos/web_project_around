@@ -13,11 +13,15 @@ export class FormValidator {
     }, {});
   }
 
-  //// Form validation
-  enableValidation() {
+  enableValidation(callback) {
+    this._validationCallback = callback;
+
     this._form.addEventListener('input', (event) => {
-      this.inputIsValid(event.target);
-    });
+      const input = event.target;
+      const isValid = this.inputIsValid(input);
+
+      this._validationCallback(input, isValid);
+    })
 
     return this;
   }

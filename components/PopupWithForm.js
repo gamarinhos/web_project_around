@@ -5,11 +5,12 @@ export class PopupWithForm extends PopupWithButton {
     const buttonClass = '.form__submit';
     super(selector, buttonClass);
 
-    this._form = formValidator.enableValidation();
+    this._formValidator = formValidator;
     this._inputs = this._getFormInputs();
     this._onSubmit = onSubmit || function () { };
 
-    this._enableFormEvents();
+    this._enableFormValidation();
+    this._enableFormSubmit();
   }
 
   _getFormInputs() {
@@ -27,22 +28,24 @@ export class PopupWithForm extends PopupWithButton {
     }, {})
   }
 
-  _enableFormEvents() {
-    this._popup.addEventListener('input', (event) => {
-      const input = event.target;
-
-      if (this._form.inputIsValid(input)) {
+  _enableFormValidation() {
+    this._formValidator.enableValidation((input, isValid) => {
+      if (isValid) {
         this._hideInputError(input);
       } else {
         this._showInputError(input);
       }
+
       this.toggleButtonState();
     });
+  }
 
+  _enableFormSubmit() {
     this._popup.addEventListener('submit', (event) => {
       event.preventDefault();
 
-      if (this._form.hasInvalidInput()) return
+      if (this._formValidator.hasInvalidInput()) return
+
       this._onSubmit();
     })
   }
@@ -78,10 +81,11 @@ export class PopupWithForm extends PopupWithButton {
   }
 
   toggleButtonState() {
-    if (this._form.hasInvalidInput()) {
+    if (this._formValidator.hasInvalidInput()) {
       this.disabledState();
       return;
     }
+
     this.defaultState();
   }
 
@@ -96,7 +100,7 @@ export class PopupWithForm extends PopupWithButton {
   }
 
   resetForm() {
-    this._form.reset();
+    this._formValidator.reset();
     this.disableInputs(false);
     this.defaultState();
   }
