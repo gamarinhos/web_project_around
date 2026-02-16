@@ -1,13 +1,13 @@
 import { PopupWithButton } from "./PopupWithButton.js";
 
 export class PopupWithForm extends PopupWithButton {
-  constructor({ selector, onSubmit, formValidator }) {
+  constructor({ selector, formValidator, onSubmit = () => { } }) {
     const buttonClass = '.form__submit';
     super(selector, buttonClass);
 
     this._formValidator = formValidator;
     this._inputs = this._getFormInputs();
-    this._onSubmit = onSubmit || function () { };
+    this._onSubmit = onSubmit;
 
     this._enableFormValidation();
     this._enableFormSubmit();
