@@ -18,7 +18,7 @@ export class FormValidator {
 
     this._form.addEventListener('input', (event) => {
       const input = event.target;
-      const isValid = this.inputIsValid(input);
+      const isValid = this._isValid(input);
 
       this._validationCallback(input, isValid);
     })
@@ -26,13 +26,13 @@ export class FormValidator {
     return this;
   }
 
-  inputIsValid(input) {
+  _isValid(input) {
     return input.validity.valid;
   }
 
   hasInvalidInput() {
     return Object.values(this._inputs).some((input) => {
-      return !this.inputIsValid(input);
+      return !this._isValid(input);
     });
   }
 

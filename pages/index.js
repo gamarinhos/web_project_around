@@ -49,7 +49,6 @@ import { FormValidator } from '../components/FormValidator.js';
   profileEditButton.addEventListener('click', () => {
     const values = userInfo.getUserInfo();
     profilePopup.prefillInputs(values);
-    profilePopup.toggleButtonState();
     profilePopup.open();
   });
 
@@ -113,9 +112,7 @@ import { FormValidator } from '../components/FormValidator.js';
 
   const removeCardPopup = new PopupWithConfirmation({
     selector: selectors.popups.removeCard,
-    buttonClickHandler: (data) => {
-      deleteCard(data) // Todos os cartões compartilham a mesma função por referência
-    }
+    buttonClickHandler: deleteCard,
   })
 
   function addNewCard(data) {

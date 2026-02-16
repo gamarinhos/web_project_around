@@ -19,7 +19,7 @@ export class Card {
     this._handleLikeClick = likeClickHandler;
   }
 
-  getCardInfo() {
+  _getCardInfo() {
     return {
       name: this._name,
       link: this._link,
@@ -68,17 +68,17 @@ export class Card {
       const targetIs = (element) => target === element;
 
       if (targetIs(this._imageElement)) {
-        this._handleCardClick(this.getCardInfo());
+        this._handleCardClick(this._getCardInfo());
         return;
       }
 
       if (targetIs(this._cardLikeButton)) {
-        this._handleLikeClick(this.getCardInfo())
+        this._handleLikeClick(this._getCardInfo());
         return;
       }
 
       if (targetIs(this._cardTrashButton)) {
-        this._handleTrashClick(this.getCardInfo());
+        this._handleTrashClick(this._getCardInfo());
         return;
       }
     });

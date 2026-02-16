@@ -36,7 +36,7 @@ export class PopupWithForm extends PopupWithButton {
         this._showInputError(input);
       }
 
-      this.toggleButtonState();
+      this._toggleButtonState();
     });
   }
 
@@ -53,6 +53,7 @@ export class PopupWithForm extends PopupWithButton {
   open(data = {}) {
     super.open();
 
+    this._toggleButtonState()
     this.prefillInputs(data)
   }
 
@@ -62,7 +63,7 @@ export class PopupWithForm extends PopupWithButton {
     });
   }
 
-  disableInputs(boolean) {
+  _disableInputs(boolean) {
     Object.values(this._inputs).forEach((input) => input.disabled = boolean);
   }
 
@@ -80,7 +81,7 @@ export class PopupWithForm extends PopupWithButton {
     if (errorElement) errorElement.textContent = '';
   }
 
-  toggleButtonState() {
+  _toggleButtonState() {
     if (this._formValidator.hasInvalidInput()) {
       this.disabledState();
       return;
@@ -91,17 +92,17 @@ export class PopupWithForm extends PopupWithButton {
 
   loadingState(text) {
     super.loadingState(text);
-    this.disableInputs(true);
+    this._disableInputs(true);
   }
 
   errorState(text) {
     super.errorState(text);
-    this.disableInputs(false);
+    this._disableInputs(false);
   }
 
   resetForm() {
     this._formValidator.reset();
-    this.disableInputs(false);
+    this._disableInputs(false);
     this.defaultState();
   }
 }
