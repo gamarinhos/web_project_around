@@ -2,8 +2,6 @@ export class FormValidator {
   constructor(form) {
     this._form = form;
     this._inputs = this._getFormInputs();
-
-    this._enableValidation();
   }
 
   _getFormInputs() {
@@ -16,21 +14,22 @@ export class FormValidator {
   }
 
   //// Form validation
-  _enableValidation() {
+  enableValidation() {
     this._form.addEventListener('input', (event) => {
-      this._inputValidation(event.target);
-    });    
+      this.inputIsValid(event.target);
+    });
+
+    return this;
   }
 
-  _inputValidation(input) {
-    return !input.validity.valid;
+  inputIsValid(input) {
+    return input.validity.valid;
   }
-  
+
   hasInvalidInput() {
-    const result = Object.values(this._inputs).some((input) => {
-      return this._inputValidation(input);
+    return Object.values(this._inputs).some((input) => {
+      return !this.inputIsValid(input);
     });
-    return result;
   }
 
   reset() {
