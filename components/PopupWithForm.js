@@ -1,18 +1,13 @@
-import { Popup } from "./Popup.js";
-import { FormValidator } from "./FormValidator.js";
-import { ButtonState } from "./ButtonState.js";
+import { PopupWithButton } from "./PopupWithButton.js";
 
-export class PopupWithForm extends Popup {
-  constructor({ selector, onSubmit }) {
-    super(selector);
-    this._form = new FormValidator(this._popup.querySelector('form'));
+export class PopupWithForm extends PopupWithButton {
+  constructor({ selector, onSubmit, formValidator }) {
+    const buttonClass = '.form__submit';
+    super(selector, buttonClass);
+
+    this._form = formValidator.enableValidation();
     this._inputs = this._getFormInputs();
     this._onSubmit = onSubmit || function () { };
-    this._submitButton = new ButtonState({
-      element: this._popup.querySelector('.form__submit'),
-      errorClass: 'form__submit_error',
-      disabledClass: 'form__submit_disabled',
-    });
 
     this._enableFormEvents();
   }
@@ -36,10 +31,10 @@ export class PopupWithForm extends Popup {
     this._popup.addEventListener('input', (event) => {
       const input = event.target;
 
-      if (this._form._inputValidation(input)) {
-        this._showInputError(input);
-      } else {
+      if (this._form.inputIsValid(input)) {
         this._hideInputError(input);
+      } else {
+        this._showInputError(input);
       }
       this.toggleButtonState();
     });
@@ -54,6 +49,7 @@ export class PopupWithForm extends Popup {
 
   open(data = {}) {
     super.open();
+
     this.prefillInputs(data)
   }
 
@@ -83,28 +79,25 @@ export class PopupWithForm extends Popup {
 
   toggleButtonState() {
     if (this._form.hasInvalidInput()) {
-      this._submitButton.disabledState();
+      this.disabledState();
       return;
     }
-    this._submitButton.defaultState();
+    this.defaultState();
   }
 
   loadingState(text) {
+    super.loadingState(text);
     this.disableInputs(true);
-    this._submitButton.loadingState(text);
   }
 
   errorState(text) {
+    super.errorState(text);
     this.disableInputs(false);
-    this._submitButton.errorState(text);
-  }
-
-  defaultState() {
-    this.disableInputs(false);
-    this._submitButton.defaultState();
   }
 
   resetForm() {
     this._form.reset();
+    this.disableInputs(false);
+    this.defaultState();
   }
 }
