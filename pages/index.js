@@ -3,10 +3,11 @@ import { selectors, tripleten, loadingTexts } from '../utils/constants.js';
 import { Api } from '../components/Api.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from "../components/PopupWithForm.js";
-import { PopupWithButton } from "../components/PopupWithButton.js";
+import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js';
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
+import { FormValidator } from '../components/FormValidator.js';
 
 (() => {
   const api = new Api(tripleten);
@@ -28,6 +29,7 @@ import { UserInfo } from '../components/UserInfo.js';
 
   const profilePopup = new PopupWithForm({
     selector: selectors.popups.profile,
+    formValidator: new FormValidator(document.forms.profile),
     onSubmit() {
       const values = profilePopup.getInputValues();
       profilePopup.loadingState(loadingTexts.saving);
@@ -53,6 +55,7 @@ import { UserInfo } from '../components/UserInfo.js';
 
   const avatarPopup = new PopupWithForm({
     selector: selectors.popups.avatar,
+    formValidator: new FormValidator(document.forms.avatar),
     onSubmit() {
       const value = avatarPopup.getInputValues();
       avatarPopup.loadingState(loadingTexts.saving);
@@ -91,6 +94,7 @@ import { UserInfo } from '../components/UserInfo.js';
 
   const newCardPopup = new PopupWithForm({
     selector: selectors.popups.newCard,
+    formValidator: new FormValidator(document.forms.newCard),
     onSubmit() {
       const cardValues = newCardPopup.getInputValues();
       newCardPopup.loadingState(loadingTexts.creating);
@@ -107,7 +111,7 @@ import { UserInfo } from '../components/UserInfo.js';
     },
   });
 
-  const removeCardPopup = new PopupWithButton({
+  const removeCardPopup = new PopupWithConfirmation({
     selector: selectors.popups.removeCard,
     buttonClickHandler: (data) => {
       deleteCard(data) // Todos os cartões compartilham a mesma função por referência
