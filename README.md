@@ -6,9 +6,7 @@ Link: <a href="https://gamarinhos.github.io/web_project_around">Around The U.S.<
 ## Descrição do Projeto
 
 > [!WARNING]
-> Utilize navegadores baseados em Chromium para desfrutar da compatibilidade com a propriedade 'position-anchor'.
->
-> Navegadores que não possuem a compatibilidade não terão problemas para fechar o popup clicando no overlay, apenas não verão o 'X', apenas uma limitação de UX (experiência do usuário).
+> Utilize navegadores baseados em Chromium para desfrutar da compatibilidade com todas as propriedades CSS utilizadas.
 
 Uma galeria de fotos interativa que exibe os locais visitados adicionados pelo usuário, com uma imagem e um título. O objetivo é criar uma forma dinâmica e visualmente atraente de compartilhar experiências.
 
@@ -32,9 +30,9 @@ Uma galeria de fotos interativa que exibe os locais visitados adicionados pelo u
 
 ### Features
 
-1. **Editar avatar**: Permitir a personalização da foto de perfil.
+1. **Carregar avatar**: Permitir que o usuário carregue uma imagem local para definir o avatar.
 
-2. **Descrição da imagem**: Dar ao usuário a opção de adicionar mais textos como uma descrição às imagens.
+2. **Descrição do card**: Dar ao usuário a opção de adicionar mais informações aos cards como uma descrição.
 
 3. **Sticky header**: Manter a seção do perfil fixada no topo da tela enquanto o usuário rola pelos cards.
 
